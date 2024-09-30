@@ -5,7 +5,7 @@ const { createTicket, getAllTickets, takeTicket, closeTicket } = require("../con
 const router = express.Router();
 
 router.post("/create", protect, normalAndAdminOnly, createTicket);
-router.get("/", protect, adminOnly, getAllTickets);
+router.get("/", protect, normalAndAdminOnly, getAllTickets);
 router.put("/take/:id", protect, adminOnly, takeTicket);
 router.put("/close/:id", protect, adminOnly, closeTicket);
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createTicket } from "../features/tickets/ticketSlice";
+import Tooltip from "./Layout/Tooltip";
 
 const TicketForm = (props) => {
 	const [formData, setFormData] = useState({ name: props.data.fullName, department: "", description: "" });
@@ -21,6 +22,10 @@ const TicketForm = (props) => {
 		return `${props.data.username} - ${props.data.fullName}`;
 	};
 
+	const ticketCount = () => {
+		return props.ticketData.filter((ticket) => ticket.username === props.data.username).length;
+	};
+
 	return (
 		// <div>
 		// 	<h1>Create a Ticket</h1>
@@ -33,36 +38,37 @@ const TicketForm = (props) => {
 		// </div>
 
 		<section id="ticketsArea" className="container d-flex flex-wrap justify-content-center">
-			<div id="createTicket" className="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1 min-width-fit">
-				<div className="text-warning-emphasis mb-3">
-					<strong>Creare Ticket</strong>
+			<form onSubmit={onSubmit} name="submitForm" id="submitForm">
+				<div id="createTicket" className="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1 min-width-fit">
+					<div className="text-warning-emphasis mb-3">
+						<strong>Creare Ticket</strong>
+					</div>
+					<div className="container">
+						<div className="mb-3">
+							<input type="text" className="form-control" id="ticketCreator" name="ticketCreator" value={disabledName()} disabled />
+						</div>
+						<div className="mb-3">
+							<select className="form-select" name="department" value={department} onChange={onChange} aria-label="department">
+								<option value="defaultx">Selecteaza Departament</option>
+								<option value="1">Achizitii</option>
+								<option value="2">Juridic</option>
+								<option value="3">Financiar</option>
+							</select>
+						</div>
+						<div className="mb-3">
+							<label htmlFor="description" className="form-label">
+								Descriere Problema
+							</label>
+							<textarea className="form-control" id="description" name="description" value={description} onChange={onChange} rows="3"></textarea>
+						</div>
+						<div className="mb-3">
+							<button type="submit" className="btn btn-info w-100">
+								Creare Ticket
+							</button>
+						</div>
+					</div>
 				</div>
-				<div className="container">
-					<div className="mb-3">
-						<input type="text" className="form-control" id="ticketCreator" name="ticketCreator" value={disabledName()} disabled />
-					</div>
-					<div className="mb-3">
-						<select className="form-select" name="department" value={department} onChange={onChange} aria-label="department">
-							<option selected>Selecteaza Departament</option>
-							<option value="1">Achizitii</option>
-							<option value="2">Juridic</option>
-							<option value="3">Financiar</option>
-						</select>
-					</div>
-					<div className="mb-3">
-						<label for="description" className="form-label">
-							Descriere Problema
-						</label>
-						<textarea className="form-control" id="description" name="description" value={description} onChange={onChange} rows="3"></textarea>
-					</div>
-					<div className="mb-3">
-						<button type="submit" className="btn btn-info w-100">
-							Creare Ticket
-						</button>
-					</div>
-				</div>
-			</div>
-
+			</form>
 			<div id="tickets" className="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1">
 				<div className="container">
 					<div className="row mb-3">
@@ -70,24 +76,22 @@ const TicketForm = (props) => {
 							<strong>Ticketele mele</strong>
 						</div>
 					</div>
-					<div className="row py-2 border-bottom align-items-center row-moloz">
-						<div className="col-1">#342</div>
-						<div className="col-3 color-blue">Andrei Varcus</div>
-						<div className="col-2">Achizitii</div>
-						<div
-							data-bs-toggle="tooltip"
-							data-bs-placement="top"
-							data-bs-custom-className="custom-tooltip"
-							data-bs-title="Problema Imprimanta ..nu se porneste nimic!"
-							className="col-6 text-truncate text-warning2"
-						>
-							Problema Imprimanta ..nu se porneste nimic!
-						</div>
-					</div>
+
+					{props.ticketData
+						.filter((ticket) => ticket.status && ticket.username === props.data.username)
+						.map((ticket) => (
+							<div className="row py-2 border-bottom align-items-center row-moloz" key={ticket.id}>
+								<div className="col-1">#{ticket.id}</div>
+								<div className="col-3 color-blue">{ticket.name}</div>
+								<div className="col-2">{ticket.department}</div>
+
+								<Tooltip data={ticket.description} />
+							</div>
+						))}
 
 					<div className="h-100 d-flex justify-content-center align-items-end mt-3">
 						<button type="button" className="btn btn-warning">
-							Vezi Toate Ticketele mele (12)
+							Vezi Toate Ticketele mele ({ticketCount()})
 						</button>
 					</div>
 				</div>

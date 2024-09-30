@@ -35,8 +35,10 @@ const Header = () => {
 						<div className="collapse navbar-collapse" id="navbarSupportedContent">
 							<ul className="navbar-nav d-flex justify-content-between flex-nowrap w-100 align-items-center">
 								<li className="nav-item d-flex justify-content-between flex-wrap align-items-center fs-5">
-									<i className="fa-brands fa-windows text-primary"></i>
-									<a className="nav-link active text-info fw-bold share-tech-mono-regular" aria-current="page" href="index.html">
+									<span className="color-header-title">
+										<i className="fa-brands fa-windows"></i>
+									</span>
+									<a className="nav-link color-header-title fw-bold share-tech-mono-regular" aria-current="page" href="#">
 										{" "}
 										CAA - IT Portal
 									</a>

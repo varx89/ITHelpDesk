@@ -91,7 +91,7 @@ body .resize-img-nav-profile {
 } */
 
 .custom-tooltip {
-	--bs-tooltip-bg: rgb(11, 111, 232);
+	--bs-tooltip-bg: #0d8abc;
 	--bs-tooltip-color: white;
 }
 .text-warning2 {
@@ -116,6 +116,10 @@ body .resize-img-nav-profile {
 }
 .fit-content {
 	width: fit-content;
+}
+.color-header-title {
+	color: #0d8abc;
+	/* color: red; */
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1470px) {

@@ -17,12 +17,12 @@ const Footer = () => {
 					</li>
 					<li className="nav-item">
 						<a href="https://nodejs.org/en" className="nav-link px-2 text-body-secondary">
-							<i class="fa-brands fa-node"></i>
+							<i className="fa-brands fa-node"></i>
 						</a>
 					</li>
 					<li className="nav-item">
 						<a href="https://react.dev/" className="nav-link px-2 text-body-secondary">
-							<i class="fa-brands fa-react"></i>
+							<i className="fa-brands fa-react"></i>
 						</a>
 					</li>
 				</ul>
