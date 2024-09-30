@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { createTicket } from "../features/tickets/ticketSlice";
 import Tooltip from "./Layout/Tooltip";
+import departments from "../utils/js-departments";
 
 const TicketForm = (props) => {
 	const [formData, setFormData] = useState({ name: props.data.fullName, department: "", description: "" });
@@ -48,11 +49,13 @@ const TicketForm = (props) => {
 							<input type="text" className="form-control" id="ticketCreator" name="ticketCreator" value={disabledName()} disabled />
 						</div>
 						<div className="mb-3">
-							<select className="form-select" name="department" value={department} onChange={onChange} aria-label="department">
+							<select className="form-select" name="department" value={department} onChange={onChange} id="department" aria-label="department">
 								<option value="defaultx">Selecteaza Departament</option>
-								<option value="1">Achizitii</option>
-								<option value="2">Juridic</option>
-								<option value="3">Financiar</option>
+								{departments.map((department) => (
+									<option key={department.value} value={department.value}>
+										{department.label}
+									</option>
+								))}
 							</select>
 						</div>
 						<div className="mb-3">
