@@ -1,0 +1,131 @@
+/* .App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+:root {
+	--primary-color: #007ea7;
+	--light-color: #ccdbdc;
+	--accent-light-color: #9ad1d4;
+	--accent-dark-color: #80ced7;
+	--dark-color: #00334a;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Josefin Sans", sans-serif !important;
+}
+
+html,
+body {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+}
+
+body {
+	/* font-family: "Montserrat", sans-serif; */
+	overflow-x: hidden;
+	background-color: #edf2f9;
+	color: #00334a;
+	min-height: 100vh;
+}
+footer {
+	margin-top: auto;
+}
+#ticketsArea {
+	flex-grow: 0;
+}
+
+body .resize-img-nav {
+	width: 4rem;
+}
+body .resize-img-nav-profile {
+	width: 3rem;
+}
+
+.max-width-fit {
+	max-width: 45%;
+}
+.min-width-fit {
+	min-width: 34rem;
+}
+/* .create-ticket {
+	max-width: 45%;
+	min-width: 45%;
+} */
+
+.custom-tooltip {
+	--bs-tooltip-bg: rgb(11, 111, 232);
+	--bs-tooltip-color: white;
+}
+.text-warning2 {
+	color: #a58f1e;
+}
+.color-blue {
+	color: #017fbd;
+}
+.bg-lightblue {
+	background-color: rgb(250, 255, 255);
+}
+.row-moloz:hover {
+	background-color: #eef9f9;
+}
+.row-moloz-white:hover {
+	background-color: #ffffff;
+}
+.share-tech-mono-regular {
+	font-family: "Share Tech Mono", monospace !important;
+	font-weight: 400;
+	font-style: normal;
+}
+.fit-content {
+	width: fit-content;
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1470px) {
+	/* .max-width-fit {
+		max-width: 60%;
+	}
+	.min-width-fit {
+		min-width: 35%;
+	}
+	.create-ticket {
+		max-width: 45%;
+	} */
+}

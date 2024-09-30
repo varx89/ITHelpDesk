@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>CAA IT HelpDesk</title>
+		<link
+			href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+			rel="stylesheet"
+			integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+			crossorigin="anonymous"
+		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="assets/styles/styles.css" />
+	</head>
+	<body>
+		<!-- Navigation START -->
+		<header id="header" class="border-bottom border-1">
+			<nav class="navbar navbar-expand-sm navbar-light bg-body-tertiary">
+				<div class="container-fluid">
+					<a class="navbar-brand" href="#"><img src="./assets/images/SIGLA2021_no_bg.png" class="img-thumbnail resize-img-nav" alt="Portal" /></a>
+					<button
+						class="navbar-toggler"
+						type="button"
+						data-bs-toggle="collapse"
+						data-bs-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent"
+						aria-expanded="false"
+						aria-label="Toggle navigation"
+					>
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav d-flex justify-content-between flex-nowrap w-100 align-items-center">
+							<li class="nav-item d-flex justify-content-between flex-wrap align-items-center fs-5">
+								<i class="fa-brands fa-windows text-primary"></i>
+								<a class="nav-link active text-info fw-bold share-tech-mono-regular" aria-current="page" href="index.html"> CAA - IT Portal</a>
+							</li>
+							<form class="d-flex align-items-center" role="search">
+								<input class="form-control me-2" type="search" placeholder="Căutare..." aria-label="Căutare" />
+								<button class="btn btn-info" type="submit">Căutare</button>
+							</form>
+							<li class="nav-item dropdown d-flex flex-wrap">
+								<div class="text-center d-flex flex-wrap justify-content-center align-items-center">
+									<span class="fw-bold text-info-emphasis">Andrei Varcus</span>
+								</div>
+								<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+									<img
+										src="https://ui-avatars.com/api/?name=Andrei+Varcus&background=0D8ABC&color=fff"
+										class="rounded-circle resize-img-nav-profile"
+										alt="Profil"
+									/>
+								</a>
+								<ul class="dropdown-menu dropdown-menu-end">
+									<li>
+										<a class="dropdown-item" href="#"><i class="fa-solid fa-user fa-xs"></i> Profil</a>
+									</li>
+									<li>
+										<a class="dropdown-item" href="#"><i class="fa-solid fa-gear fa-xs"></i> Setări</a>
+									</li>
+									<li><hr class="dropdown-divider" /></li>
+									<li>
+										<a class="dropdown-item" href="#"><i class="fa-solid fa-right-from-bracket fa-xs"></i> Ieșire</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<!-- Navigation END -->
+		<!-- Section tickets Area START -->
+		<section id="ticketsArea" class="container d-flex flex-wrap justify-content-center">
+			<!-- Section Creare Ticket START -->
+			<div id="createTicket" class="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1 min-width-fit">
+				<div class="text-warning-emphasis mb-3">
+					<strong>Creare Ticket</strong>
+				</div>
+				<div class="container">
+					<div class="mb-3">
+						<input type="email" class="form-control" id="name" value="Andrei Varcus - A03040" disabled />
+					</div>
+					<div class="mb-3">
+						<select class="form-select" aria-label="department">
+							<option selected>Selecteaza Departament</option>
+							<option value="1">Achizitii</option>
+							<option value="2">Juridic</option>
+							<option value="3">Financiar</option>
+						</select>
+					</div>
+					<div class="mb-3">
+						<label for="description" class="form-label">Descriere Problema</label>
+						<textarea class="form-control" id="description" rows="3"></textarea>
+					</div>
+					<div class="mb-3">
+						<button type="button" class="btn btn-info w-100">Creare Ticket</button>
+					</div>
+				</div>
+			</div>
+			<!-- Section Creare Ticket END -->
+			<!-- Section Ticketele mele START -->
+			<div id="tickets" class="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1">
+				<div class="container">
+					<div class="row mb-3">
+						<div class="col-12 col-md-4 text-warning-emphasis">
+							<strong>Ticketele mele</strong>
+						</div>
+					</div>
+					<div class="row py-2 border-bottom align-items-center row-moloz">
+						<div class="col-1">#342</div>
+						<div class="col-3 color-blue">Andrei Varcus</div>
+						<div class="col-2">Achizitii</div>
+						<div
+							data-bs-toggle="tooltip"
+							data-bs-placement="top"
+							data-bs-custom-class="custom-tooltip"
+							data-bs-title="Problema Imprimanta ..nu se porneste nimic!"
+							class="col-6 text-truncate text-warning2"
+						>
+							Problema Imprimanta ..nu se porneste nimic!
+						</div>
+					</div>
+					<!-- Repeat similar blocks for other tickets -->
+					<div class="h-100 d-flex justify-content-center align-items-end mt-3">
+						<button type="button" class="btn btn-warning">Vezi Toate Ticketele mele (12)</button>
+					</div>
+				</div>
+			</div>
+			<!-- Section Ticketele mele END -->
+		</section>
+		<!-- Section tickets Area END -->
+		<!-- Footer start -->
+		<footer class="py-3 bg-white mb-0">
+			<ul class="nav justify-content-center border-bottom pb-3 mb-3">
+				<li class="nav-item">
+					<a href="https://getbootstrap.com/" class="nav-link px-2 text-body-secondary">Realizat cu</a>
+				</li>
+				<li class="nav-item">
+					<a href="https://getbootstrap.com/" class="nav-link px-2 text-body-secondary"><i class="fa-brands fa-bootstrap"></i></a>
+				</li>
+			</ul>
+			<p class="text-center text-body-secondary">&copy; 2024 Compania de Apa Arad S.A.</p>
+		</footer>
+		<!-- Footer end -->
+
+		<script defer src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script defer src="./assets/js/js-data.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1.6.4"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1.6.7"></script>
+		<script
+			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+			crossorigin="anonymous"
+		></script>
+		<script
+			src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/js/all.min.js"
+			integrity="sha512-6sSYJqDreZRZGkJ3b+YfdhB3MzmuP9R7X1QZ6g5aIXhRvR1Y/N/P47jmnkENm7YL3oqsmI6AK+V6AD99uWDnIw=="
+			crossorigin="anonymous"
+			referrerpolicy="no-referrer"
+		></script>
+	</body>
+</html>
