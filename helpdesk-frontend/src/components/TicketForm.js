@@ -28,16 +28,6 @@ const TicketForm = (props) => {
 	};
 
 	return (
-		// <div>
-		// 	<h1>Create a Ticket</h1>
-		// 	<form onSubmit={onSubmit}>
-		// 		<input type="text" name="fullName" value={disabledName()} onChange={onChange} disabled required />
-		// 		<input type="text" name="department" value={department} onChange={onChange} placeholder="Department" required />
-		// 		<textarea name="description" value={description} onChange={onChange} placeholder="Problem Description" required />
-		// 		<button type="submit">Create Ticket</button>
-		// 	</form>
-		// </div>
-
 		<section id="ticketsArea" className="container d-flex flex-wrap justify-content-center">
 			<form onSubmit={onSubmit} name="submitForm" id="submitForm">
 				<div id="createTicket" className="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1 min-width-fit">
@@ -72,7 +62,7 @@ const TicketForm = (props) => {
 					</div>
 				</div>
 			</form>
-			<div id="tickets" className="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1">
+			<div id="tickets" className="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1 max-width-fit">
 				<div className="container">
 					<div className="row mb-3">
 						<div className="col-12 col-md-4 text-warning-emphasis">
@@ -88,7 +78,7 @@ const TicketForm = (props) => {
 								<div className="col-3 color-blue">{ticket.name}</div>
 								<div className="col-2">{ticket.department}</div>
 
-								<Tooltip data={ticket.description} />
+								<Tooltip type="dashboard" data={ticket.description} />
 							</div>
 						))}
 

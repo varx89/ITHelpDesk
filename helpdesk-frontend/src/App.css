@@ -80,10 +80,10 @@ body .resize-img-nav-profile {
 }
 
 .max-width-fit {
-	max-width: 45%;
+	max-width: 700px;
 }
 .min-width-fit {
-	min-width: 34rem;
+	min-width: 32rem;
 }
 /* .create-ticket {
 	max-width: 45%;
@@ -120,6 +120,9 @@ body .resize-img-nav-profile {
 .color-header-title {
 	color: #0d8abc;
 	/* color: red; */
+}
+.chartWidth {
+	min-width: 44rem;
 }
 
 @media only screen and (min-width: 1024px) and (max-width: 1470px) {

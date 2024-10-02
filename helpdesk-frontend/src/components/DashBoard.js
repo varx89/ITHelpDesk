@@ -15,17 +15,8 @@ const DashBoard = () => {
 		dispatch(getAllTickets());
 	}, [dispatch]);
 
-	const logout = () => {
-		dispatch(logoutUser());
-		navigate("/");
-	};
-
 	return (
 		<div>
-			{/* <h1>Welcome {user?.username}</h1>
-			<span style={{ cursor: "pointer", backgroundColor: "red", fontWeight: "bold", padding: "5px", borderRadius: "5px", color: "white" }} onClick={logout}>
-				Logout
-			</span> */}
 			<TicketForm data={user} ticketData={tickets} />
 		</div>
 	);

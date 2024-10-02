@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 
 const Tooltip = (props) => {
+	let tooltip = "";
 	useEffect(() => {
 		// Initialize tooltips
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
@@ -12,14 +13,14 @@ const Tooltip = (props) => {
 		};
 	}, []); // Empty dependency array means this runs once on mount
 
+	if (props.type === "dashboard") {
+		tooltip = "col-6 text-truncate text-warning2";
+	} else if (props.type === "admin") {
+		tooltip = "col-4 text-truncate text-warning2";
+	}
+
 	return (
-		<div
-			data-bs-toggle="tooltip"
-			data-bs-placement="top"
-			data-bs-custom-class="custom-tooltip"
-			data-bs-title={props.data}
-			className="col-6 text-truncate text-warning2"
-		>
+		<div data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title={props.data} className={tooltip}>
 			{props.data}
 		</div>
 	);

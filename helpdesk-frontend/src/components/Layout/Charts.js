@@ -47,7 +47,7 @@ const Charts = () => {
 	}, []); // Empty dependency array means this runs once on mount
 
 	return (
-		<div>
+		<div className="chartWidth">
 			<canvas id="myChart"></canvas>
 		</div>
 	);
