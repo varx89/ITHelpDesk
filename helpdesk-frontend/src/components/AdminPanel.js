@@ -11,10 +11,22 @@ const AdminPanel = () => {
 
 	const { tickets } = useSelector((state) => state.tickets);
 	const { user } = useSelector((state) => state.user);
+	const dispatch = useDispatch();
 
 	const [showOpenTickets, setShowOpenTickets] = useState(true);
 	const [showClosedTickets, setShowClosedTickets] = useState(false);
 	const [showTotalTickets, setShowTotalTickets] = useState(false);
+	const [showHandleCloseTicket, setShowHandleCloseTicket] = useState(false);
+	const [showCloseTicketId, setShowCloseTicketId] = useState("");
+
+	useEffect(() => {
+		dispatch(getAllTickets());
+	}, [dispatch]);
+
+	useEffect(() => {
+		// This effect runs when showOpenTickets, showClosedTickets, or showTotalTickets changes
+		// You can add logic here if you need to perform any actions when the filters change
+	}, [showOpenTickets, showClosedTickets, showTotalTickets, tickets]);
 
 	const toggleOpenTickets = () => {
 		setShowOpenTickets(!showOpenTickets);
@@ -34,12 +46,6 @@ const AdminPanel = () => {
 		setShowClosedTickets(false);
 	};
 
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(getAllTickets());
-	}, [dispatch]);
-
 	const onChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
@@ -48,8 +54,13 @@ const AdminPanel = () => {
 		dispatch(takeTicket(id));
 	};
 
-	const handleCloseTicket = (id, solvingRemark) => {
+	const onCloseTicket = (id, solvingRemark) => {
 		dispatch(closeTicket({ id, solvingRemark }));
+	};
+
+	const handleCloseTicket = (id) => {
+		setShowHandleCloseTicket(true);
+		setShowCloseTicketId(id);
 	};
 
 	const ticketCountNew = () => {
@@ -64,6 +75,9 @@ const AdminPanel = () => {
 	const ticketCountTotal = () => {
 		return tickets.filter((ticket) => ticket.status === "closed").length;
 	};
+	const getTicketData = (sid) => {
+		return tickets.filter((ticket) => ticket.id === sid)[0];
+	};
 
 	if (user?.role !== "admin") {
 		return <Navigate to="/dashboard" />;
@@ -72,46 +86,70 @@ const AdminPanel = () => {
 	return (
 		<>
 			<section id="ticketsArea" className="container d-flex flex-wrap justify-content-center">
-				<div id="createTicket" className="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1 min-width-fit w-100">
-					<div className="text-warning-emphasis mb-3">
-						<strong>Inchidere Ticket</strong>
-					</div>
-					<div className="container">
-						<div className="mb-3 p-2 bg-danger-subtle">Problema Imprimanta ..nu se porneste nimic!</div>
-						<div className="mb-3">
-							<label htmlFor="department" className="form-label">
-								Departament
-							</label>
-							<input type="text" className="form-control" id="department" name="department" value="Achizitii" disabled />
+				{showHandleCloseTicket && showCloseTicketId && (
+					<div id="createTicket" className="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1 min-width-fit w-100">
+						<div className="d-flex text-warning-emphasis mb-3 justify-content-between">
+							<strong>Inchidere Ticket Nr. {showCloseTicketId}</strong>
+							<span onClick={() => setShowHandleCloseTicket(false)}>
+								<i className="fa-regular fa-2xl fa-rectangle-xmark"></i>
+							</span>
 						</div>
-						<div className="mb-3">
-							<label htmlFor="requester" className="form-label">
-								Solicitant
+						<div className="container">
+							<label htmlFor="department" className="form-label d-flex justify-content-betwee">
+								<span className="text-danger">
+									<i className="fa-solid fa-triangle-exclamation"></i>
+								</span>
+								<span className="mx-2">Descriere Problema</span>
+								<span className="text-danger">
+									<i className="fa-solid fa-triangle-exclamation fa-xs"></i>
+								</span>
 							</label>
-							<input type="text" className="form-control" id="requester" name="requester" value="Luciana Petran" disabled />
-						</div>
-						<div className="mb-3">
-							<label htmlFor="description" className="form-label">
-								Descriere Rezolvare Problema
-							</label>
-							<textarea className="form-control" id="description" name="description" rows="3"></textarea>
-						</div>
-						<div className="mb-3">
-							<label htmlFor="description" className="form-label">
-								Timp de rezolvare
-							</label>
-							<div className="d-flex flex-row justify-content-between align-items-center">
-								<input type="number" className="form-control" id="solvetime" name="solvetime" value="10" />
-								<span className="ms-1">minute</span>
+
+							<div className="mb-3 p-2 bg-danger-subtle w-100">{getTicketData(showCloseTicketId).description}</div>
+
+							<div className="mb-3">
+								<label htmlFor="department" className="form-label">
+									Departament
+								</label>
+								<input
+									type="text"
+									className="form-control"
+									id="department"
+									name="department"
+									onChange={onChange}
+									value={getTicketData(showCloseTicketId).department}
+									disabled
+								/>
+							</div>
+							<div className="mb-3">
+								<label htmlFor="requester" className="form-label">
+									Solicitant
+								</label>
+								<input type="text" className="form-control" id="requester" name="requester" value={getTicketData(showCloseTicketId).name} disabled />
+							</div>
+							<div className="mb-3">
+								<label htmlFor="description" className="form-label">
+									Descriere Rezolvare Problema
+								</label>
+								<textarea className="form-control" id="description" name="description" rows="3"></textarea>
+							</div>
+							<div className="mb-3">
+								<label htmlFor="description" className="form-label">
+									Timp de rezolvare
+								</label>
+								<div className="d-flex flex-row justify-content-between align-items-center">
+									<input type="number" className="form-control" id="solvetime" name="solvetime" value="10" />
+									<span className="ms-1">minute</span>
+								</div>
+							</div>
+							<div className="mb-3">
+								<button type="button" className="btn btn-info w-100">
+									Inchidere Ticket
+								</button>
 							</div>
 						</div>
-						<div className="mb-3">
-							<button type="button" className="btn btn-info w-100">
-								Inchidere Ticket
-							</button>
-						</div>
 					</div>
-				</div>
+				)}
 
 				<div id="tickets" className="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1 min-width-fit">
 					<div className="container">
@@ -119,21 +157,21 @@ const AdminPanel = () => {
 							<div className="col-12 col-md-8 text-warning-emphasis">
 								<button
 									type="button"
-									className={`btn border ${showOpenTickets ? "bg-dark-subtle" : "btn-light"} text-warning-emphasis`}
+									className={`btn border ${showOpenTickets ? "bg-dark-subtle" : "btn-light"} text-warning-emphasis mx-1`}
 									onClick={toggleOpenTickets}
 								>
 									<strong>Ticketele mele deschise</strong>
 								</button>
 								<button
 									type="button"
-									className={`btn ${showClosedTickets ? "bg-dark-subtle" : "btn-light"} border text-warning-emphasis`}
+									className={`btn ${showClosedTickets ? "bg-dark-subtle" : "btn-light"} border text-warning-emphasis mx-1`}
 									onClick={toggleClosedTickets}
 								>
 									<strong>Ticketele mele inchise</strong>
 								</button>
 								<button
 									type="button"
-									className={`btn ${showTotalTickets ? "bg-dark-subtle" : "btn-light"} border text-warning-emphasis`}
+									className={`btn ${showTotalTickets ? "bg-dark-subtle" : "btn-light"} border text-warning-emphasis mx-1`}
 									onClick={toggleTotalTickets}
 								>
 									<strong>Total tickete inchise global</strong>
@@ -159,7 +197,7 @@ const AdminPanel = () => {
 										<div className="col-2">{ticket.department}</div>
 										<Tooltip type="admin" data={ticket.description} />
 										<div className="col-2 d-flex justify-content-end">
-											<button type="button" className="btn bg-danger text-white">
+											<button type="button" className="btn bg-danger text-white" onClick={() => handleCloseTicket(ticket.id)}>
 												Inchide Ticket
 											</button>
 										</div>
@@ -231,7 +269,7 @@ const AdminPanel = () => {
 						)}
 					</div>
 				</div>
-
+				{/* Ticketele NOI START */}
 				<div id="ticketsNew" className="m-3 p-4 bg-lightblue rounded border border-1 shadow-lg flex-grow-1 min-width-fit">
 					<div className="container">
 						<div className="row mb-3">
@@ -269,7 +307,7 @@ const AdminPanel = () => {
 						</div>
 					</div>
 				</div>
-
+				{/* Chart START */}
 				<div id="graphics" className="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1">
 					<div className="container">
 						<div className="col mb-3">
