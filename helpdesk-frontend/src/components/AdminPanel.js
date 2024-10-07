@@ -21,12 +21,12 @@ const AdminPanel = () => {
 
 	useEffect(() => {
 		dispatch(getAllTickets());
-	}, [dispatch]);
+	}, [dispatch, showOpenTickets, showClosedTickets, showTotalTickets, tickets]);
 
-	useEffect(() => {
-		// This effect runs when showOpenTickets, showClosedTickets, or showTotalTickets changes
-		// You can add logic here if you need to perform any actions when the filters change
-	}, [showOpenTickets, showClosedTickets, showTotalTickets, tickets]);
+	// useEffect(() => {
+	// 	// This effect runs when showOpenTickets, showClosedTickets, or showTotalTickets changes
+	// 	// You can add logic here if you need to perform any actions when the filters change
+	// }, [showOpenTickets, showClosedTickets, showTotalTickets, tickets]);
 
 	const toggleOpenTickets = () => {
 		setShowOpenTickets(!showOpenTickets);

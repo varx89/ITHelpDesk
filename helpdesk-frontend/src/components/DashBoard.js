@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import TicketForm from "./TicketForm";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from "../features/user/userSlice";
 import { getAllTickets } from "../features/tickets/ticketSlice";
 import Tooltip from "./Layout/Tooltip";
 import departments from "../utils/js-departments";
@@ -10,7 +8,7 @@ import { createTicket } from "../features/tickets/ticketSlice";
 
 const DashBoard = () => {
 	const { user } = useSelector((state) => state.user);
-	const { tickets } = useSelector((state) => state.tickets);
+	const { tickets, error, success } = useSelector((state) => state.tickets);
 
 	const [formData, setFormData] = useState({ name: user.fullName, department: "", description: "" });
 	const { name, department, description } = formData;
@@ -52,6 +50,16 @@ const DashBoard = () => {
 						<strong>Creare Ticket</strong>
 					</div>
 					<div className="container">
+						{error && (
+							<strong>
+								<div className="alert alert-danger">{error}</div>
+							</strong>
+						)}
+						{success && (
+							<strong>
+								<div className="alert alert-success">{success}</div>
+							</strong>
+						)}
 						<div className="mb-3">
 							<input type="text" className="form-control" id="ticketCreator" name="ticketCreator" value={disabledName()} disabled />
 						</div>
@@ -89,6 +97,7 @@ const DashBoard = () => {
 
 					{tickets
 						.filter((ticket) => ticket.status && ticket.username === user.username)
+						.toReversed()
 						.map((ticket) => (
 							<div className="row py-2 border-bottom align-items-center row-moloz" key={ticket.id}>
 								<div className="col-1">#{ticket.id}</div>

@@ -9,7 +9,7 @@ const Login = () => {
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
-	const { user, error } = useSelector((state) => state.user);
+	const { user, error, message } = useSelector((state) => state.user);
 
 	const onChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,7 +29,9 @@ const Login = () => {
 	return (
 		<div>
 			<h1>Login</h1>
+			{message && <p>{message}</p>}
 			{error && <p>{error}</p>}
+
 			<form onSubmit={onSubmit}>
 				<input type="text" name="username" value={username} onChange={onChange} placeholder="Username" required />
 				<input type="password" name="password" value={password} onChange={onChange} placeholder="Password" required />

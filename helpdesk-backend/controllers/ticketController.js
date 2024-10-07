@@ -8,6 +8,19 @@ const Ticket = require("../models/ticket");
 const createTicket = asyncHandler(async (req, res) => {
 	const { name, department, description } = req.body;
 
+	if (!name) {
+		return res.status(401).json({ error: "Va rog introduceti numele dumneavoastra!" });
+	}
+	if (!department) {
+		return res.status(401).json({ error: "Va rog sa selectati departamentul!" });
+	}
+	if (!description) {
+		return res.status(401).json({ error: "Va rog sa introduceti o descriere a problemei!" });
+	}
+	if (!req.user.username) {
+		return res.status(401).json({ error: "Nume de utilizator invalid!" });
+	}
+
 	const ticket = await Ticket.create({
 		name,
 		username: req.user.username, // The logged-in user's username
@@ -24,6 +37,9 @@ const createTicket = asyncHandler(async (req, res) => {
 // @access  Private (Admin Only)
 const getAllTickets = asyncHandler(async (req, res) => {
 	const tickets = await Ticket.findAll();
+	if (!tickets) {
+		res.status(404).json({ error: "Nu exista tickete in baza de date!" });
+	}
 	res.json(tickets);
 });
 
@@ -34,13 +50,13 @@ const takeTicket = asyncHandler(async (req, res) => {
 	const ticket = await Ticket.findByPk(req.params.id);
 
 	if (!ticket) {
-		res.status(404);
-		throw new Error("Ticket not found");
+		res.status(404).json({ error: "Ticket negasit" });
+		// throw new Error("Ticket not found");
 	}
 
 	if (ticket.status !== "new") {
-		res.status(400);
-		throw new Error("Ticket already taken or closed");
+		res.status(400).json({ error: "Ticket deja luat" });
+		// throw new Error("Ticket already taken or closed");
 	}
 
 	ticket.status = "in_progress";

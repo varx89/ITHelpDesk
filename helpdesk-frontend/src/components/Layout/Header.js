@@ -2,15 +2,15 @@ import React from "react";
 import SIGLA from "../../assets/images/SIGLA2021_no_bg.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { logoutUser } from "../../features/user/userSlice";
+import { logout } from "../../features/user/userSlice";
 
 const Header = () => {
 	const { user } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
-	const logout = () => {
-		dispatch(logoutUser());
+	const logoutUser = () => {
+		dispatch(logout());
 		navigate("/");
 	};
 	return (
@@ -75,7 +75,7 @@ const Header = () => {
 											<hr className="dropdown-divider" />
 										</li>
 										<li>
-											<a onClick={logout} className="dropdown-item" href="#">
+											<a onClick={logoutUser} className="dropdown-item" href="#">
 												<i className="fa-solid fa-right-from-bracket fa-xs"></i> Ieșire
 											</a>
 										</li>

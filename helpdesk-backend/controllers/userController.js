@@ -16,18 +16,9 @@ const registerUser = asyncHandler(async (req, res) => {
 	const { username, password, fullName, role } = req.body;
 	// Check if user exists
 	const userExists = (await User.findOne({ where: { username } })) ?? false;
-	// console.log(username, "ssss");
 
 	if (userExists) {
-		console.log("Not found!");
-	} else {
-		console.log(userExists instanceof User); // true
-		console.log(userExists.username); // 'My Title'
-	}
-
-	if (userExists) {
-		res.status(400);
-		throw new Error("User already exists");
+		return res.status(401).json({ error: "Utilizatorul exista deja!" });
 	}
 
 	// Hash password
@@ -51,8 +42,7 @@ const registerUser = asyncHandler(async (req, res) => {
 			token: generateToken(user.id),
 		});
 	} else {
-		res.status(400);
-		throw new Error("Invalid user data");
+		return res.status(401).json({ error: "Utilizator Invalid!" });
 	}
 });
 
@@ -66,16 +56,17 @@ const loginUser = asyncHandler(async (req, res) => {
 	const user = await User.findOne({ where: { username } });
 
 	if (user && (await bcrypt.compare(password, user.password))) {
+		token = generateToken(user.id);
 		res.json({
 			id: user.id,
 			username: user.username,
 			role: user.role,
 			fullName: user.fullName,
-			token: generateToken(user.id),
+			token: token,
 		});
+		res.status(201).json({ success: "Utilizator autentificat cu success!" });
 	} else {
-		res.status(401);
-		throw new Error("Invalid username or password");
+		return res.status(409).json({ error: "Utilizator sau parola invalid(a)!" });
 	}
 });
 
@@ -93,13 +84,16 @@ const getUserProfile = asyncHandler(async (req, res) => {
 			fullName: user.fullName,
 		});
 	} else {
-		res.status(404);
-		throw new Error("User not found");
+		return res.status(404).json({ error: "Utilizator negasit!" });
 	}
 });
 
 const fetchUsers = asyncHandler(async (req, res) => {
 	const users = await User.findAll();
+	if (!users) {
+		return res.status(404).json({ error: "Nu exista utilizatori in baza de date!" });
+	}
+	// Return the users (without the password
 	res.json(users);
 });
 
