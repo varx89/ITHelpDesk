@@ -6,11 +6,13 @@ import Charts from "./Layout/Charts";
 import Tooltip from "./Layout/Tooltip";
 
 const AdminPanel = () => {
-	const [formData, setFormData] = useState({ name: "", department: "", description: "" });
-	const { name, department, description } = formData;
+	// const [formData, setFormData] = useState({ id: "", solvingRemark: "" });
+	// const { id, solvingRemark } = formData;
 
-	const { tickets } = useSelector((state) => state.tickets);
+	const { tickets, error, success } = useSelector((state) => state.tickets);
 	const { user } = useSelector((state) => state.user);
+	const [remark, setRemark] = useState("");
+	const [timeSpan, setTimeSpan] = useState("");
 	const dispatch = useDispatch();
 
 	const [showOpenTickets, setShowOpenTickets] = useState(true);
@@ -46,9 +48,9 @@ const AdminPanel = () => {
 		setShowClosedTickets(false);
 	};
 
-	const onChange = (e) => {
-		setFormData({ ...formData, [e.target.name]: e.target.value });
-	};
+	// const onChange = (e) => {
+	// 	// setFormData({ ...formData, [e.target.name]: e.target.value });
+	// };
 
 	const handleTakeOver = (id) => {
 		dispatch(takeTicket(id));
@@ -57,6 +59,12 @@ const AdminPanel = () => {
 	const onCloseTicket = (id, solvingRemark) => {
 		dispatch(closeTicket({ id, solvingRemark }));
 	};
+
+	// const onSubmit = (e) => {
+	// 	e.preventDefault();
+	// 	dispatch(closeTicket({ id, solvingRemark }));
+	// 	setFormData({ id: "10", solvingRemark: "" });
+	// };
 
 	const handleCloseTicket = (id) => {
 		setShowHandleCloseTicket(true);
@@ -87,68 +95,101 @@ const AdminPanel = () => {
 		<>
 			<section id="ticketsArea" className="container d-flex flex-wrap justify-content-center">
 				{showHandleCloseTicket && showCloseTicketId && (
-					<div id="createTicket" className="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1 min-width-fit w-100">
-						<div className="d-flex text-warning-emphasis mb-3 justify-content-between">
-							<strong>Inchidere Ticket Nr. {showCloseTicketId}</strong>
-							<span onClick={() => setShowHandleCloseTicket(false)}>
-								<i className="fa-regular fa-2xl fa-rectangle-xmark"></i>
-							</span>
-						</div>
-						<div className="container">
-							<label htmlFor="department" className="form-label d-flex justify-content-betwee">
-								<span className="text-danger">
-									<i className="fa-solid fa-triangle-exclamation"></i>
-								</span>
-								<span className="mx-2">Descriere Problema</span>
-								<span className="text-danger">
-									<i className="fa-solid fa-triangle-exclamation fa-xs"></i>
-								</span>
-							</label>
+					<>
+						{/* Modal Backdrop */}
+						<div className="modal-backdrop show"></div>
 
-							<div className="mb-3 p-2 bg-danger-subtle w-100">{getTicketData(showCloseTicketId).description}</div>
-
-							<div className="mb-3">
-								<label htmlFor="department" className="form-label">
-									Departament
-								</label>
-								<input
-									type="text"
-									className="form-control"
-									id="department"
-									name="department"
-									onChange={onChange}
-									value={getTicketData(showCloseTicketId).department}
-									disabled
-								/>
-							</div>
-							<div className="mb-3">
-								<label htmlFor="requester" className="form-label">
-									Solicitant
-								</label>
-								<input type="text" className="form-control" id="requester" name="requester" value={getTicketData(showCloseTicketId).name} disabled />
-							</div>
-							<div className="mb-3">
-								<label htmlFor="description" className="form-label">
-									Descriere Rezolvare Problema
-								</label>
-								<textarea className="form-control" id="description" name="description" rows="3"></textarea>
-							</div>
-							<div className="mb-3">
-								<label htmlFor="description" className="form-label">
-									Timp de rezolvare
-								</label>
-								<div className="d-flex flex-row justify-content-between align-items-center">
-									<input type="number" className="form-control" id="solvetime" name="solvetime" value="10" />
-									<span className="ms-1">minute</span>
+						{/* Modal */}
+						<div className="modal show d-block" tabIndex="-1" role="dialog">
+							<form name="submitForm" id="submitForm">
+								<div className="modal-dialog" role="document">
+									<div className="modal-content">
+										<div className="modal-header">
+											<h5 className="modal-title">Inchidere Ticket Nr. {showCloseTicketId}</h5>
+											<button type="button" className="btn-close" onClick={() => setShowHandleCloseTicket(false)} aria-label="Close"></button>
+										</div>
+										<div className="modal-body">
+											<div className="container">
+												{error && (
+													<strong>
+														<div className="alert alert-danger">{error}</div>
+													</strong>
+												)}
+												{success && (
+													<strong>
+														<div className="alert alert-success">{success}</div>
+													</strong>
+												)}
+												<label htmlFor="problemDescription" className="form-label d-flex justify-content-between">
+													<span className="text-danger">
+														<i className="fa-solid fa-triangle-exclamation"></i>
+													</span>
+													<span className="mx-2">Descriere Problema</span>
+													<span className="text-danger">
+														<i className="fa-solid fa-triangle-exclamation fa-xs"></i>
+													</span>
+												</label>
+												<div className="mb-3 p-2 bg-danger-subtle w-100">{getTicketData(showCloseTicketId).description}</div>
+												<div className="mb-3">
+													<label htmlFor="department" className="form-label">
+														Departament
+													</label>
+													<input
+														type="text"
+														className="form-control"
+														id="department"
+														name="department"
+														value={getTicketData(showCloseTicketId).department}
+														disabled
+													/>
+												</div>
+												<div className="mb-3">
+													<label htmlFor="requester" className="form-label">
+														Solicitant
+													</label>
+													<input type="text" className="form-control" id="requester" name="requester" value={getTicketData(showCloseTicketId).name} disabled />
+												</div>
+												<div className="mb-3">
+													<label htmlFor="resolutionDescription" className="form-label">
+														Descriere Rezolvare Problema
+													</label>
+													<textarea
+														className="form-control"
+														id="resolutionDescription"
+														value={remark}
+														name="resolutionDescription"
+														rows="3"
+														onChange={(e) => setRemark(e.target.value)}
+													></textarea>
+												</div>
+												<div className="mb-3">
+													<label htmlFor="solvetime" className="form-label">
+														Timp de rezolvare
+													</label>
+													<div className="d-flex flex-row justify-content-between align-items-center">
+														<input
+															type="number"
+															className="form-control"
+															value={timeSpan}
+															id="solvetime"
+															name="solvetime"
+															onChange={(e) => setTimeSpan(e.target.value)}
+														/>
+														<span className="ms-1">minute</span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div className="modal-footer">
+											<button type="button" className="btn btn-info w-100" onClick={onCloseTicket(showCloseTicketId, remark)}>
+												Inchidere Ticket
+											</button>
+										</div>
+									</div>
 								</div>
-							</div>
-							<div className="mb-3">
-								<button type="button" className="btn btn-info w-100">
-									Inchidere Ticket
-								</button>
-							</div>
+							</form>
 						</div>
-					</div>
+					</>
 				)}
 
 				<div id="tickets" className="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1 min-width-fit">

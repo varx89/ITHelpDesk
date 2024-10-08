@@ -14,7 +14,7 @@ if (process.argv[2] == "force") {
 const syncDatabase = async () => {
 	try {
 		// await sequelize.sync(force); // Use { force: true } only in development
-		await sequelize.sync(); // Use { force: true } only in development
+		await sequelize.sync({ alter: true }); // Use { force: true } only in development
 		console.log("Database & tables created!");
 	} catch (error) {
 		console.error("Error syncing database:", error);

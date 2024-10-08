@@ -70,22 +70,29 @@ const takeTicket = asyncHandler(async (req, res) => {
 // @route   PUT /api/tickets/close/:id
 // @access  Private (Admin Only)
 const closeTicket = asyncHandler(async (req, res) => {
-	const { solvingRemark } = req.body;
+	const { solvingRemark, timeSpan } = req.body;
 
 	const ticket = await Ticket.findByPk(req.params.id);
 
 	if (!ticket) {
-		res.status(404);
-		throw new Error("Ticket not found");
+		res.status(404).json({ error: "Ticket de negasit!" });
 	}
 
 	if (ticket.status !== "in_progress") {
-		res.status(400);
-		throw new Error("Ticket is not in progress");
+		res.status(400).json({ error: "Ticket-ul nu este in progress" });
+	}
+
+	if (!timeSpan) {
+		res.status(401).json({ error: "Nu ati introdus durata Ticket-ului!" });
+	}
+
+	if (!solvingRemark) {
+		res.status(401).json({ error: "Nu ati introdus descrierea rezolvarii Ticket-ului!" });
 	}
 
 	ticket.status = "closed";
 	ticket.solvingRemark = solvingRemark;
+	ticket.timeSpan = timeSpan;
 	ticket.closedAt = new Date(); // Capture the closing time
 	await ticket.save();
 

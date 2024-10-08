@@ -70,6 +70,10 @@ Ticket.init(
 		solvingRemark: {
 			type: DataTypes.TEXT,
 		},
+		timeSpan: {
+			type: DataTypes.INTEGER,
+			defaultValue: 0,
+		},
 		closedAt: {
 			type: DataTypes.DATE,
 		},

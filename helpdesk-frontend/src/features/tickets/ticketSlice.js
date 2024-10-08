@@ -79,6 +79,13 @@ const ticketSlice = createSlice({
 			.addCase(closeTicket.fulfilled, (state, action) => {
 				const index = state.tickets.findIndex((ticket) => ticket.id === action.payload.id);
 				state.tickets[index] = action.payload;
+				state.error = "";
+				state.success = "Ticket inchis cu success!";
+			})
+			.addCase(closeTicket.rejected, (state, action) => {
+				const index = state.tickets.findIndex((ticket) => ticket.id === action.payload.id);
+				state.tickets[index] = action.payload;
+				state.error = action.payload;
 			});
 	},
 });
