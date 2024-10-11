@@ -16,6 +16,9 @@ const DashBoard = () => {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
+	const recordPerPage = 5;
+	const [visibleNewCount, setVisibleNewCount] = useState(recordPerPage);
+
 	useEffect(() => {
 		dispatch(getAllTickets());
 	}, [dispatch, tickets, user]);
@@ -36,6 +39,10 @@ const DashBoard = () => {
 
 	const ticketCount = () => {
 		return tickets.filter((ticket) => ticket.username === user.username).length;
+	};
+
+	const showMoreNewTickets = () => {
+		setVisibleNewCount((prevCount) => prevCount + recordPerPage); // Show 10 more records
 	};
 
 	if (!user) {
@@ -91,13 +98,14 @@ const DashBoard = () => {
 				<div className="container">
 					<div className="row mb-3">
 						<div className="col-12 col-md-4 text-warning-emphasis">
-							<strong>Ticketele mele</strong>
+							<strong>Ticketele mele ({ticketCount()})</strong>
 						</div>
 					</div>
 
 					{tickets
 						.filter((ticket) => ticket.status && ticket.username === user.username)
 						.toReversed()
+						.slice(0, visibleNewCount)
 						.map((ticket) => (
 							<div className="row py-2 border-bottom align-items-center row-moloz" key={ticket.id}>
 								<div className="col-1">#{ticket.id}</div>
@@ -109,8 +117,8 @@ const DashBoard = () => {
 						))}
 
 					<div className="h-100 d-flex justify-content-center align-items-end mt-3">
-						<button type="button" className="btn btn-warning">
-							Vezi Toate Ticketele mele ({ticketCount()})
+						<button type="button" className="btn btn-warning" onClick={showMoreNewTickets}>
+							+ Vezi mai multe tickete +
 						</button>
 					</div>
 				</div>
