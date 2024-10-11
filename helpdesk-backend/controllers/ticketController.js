@@ -62,6 +62,7 @@ const takeTicket = asyncHandler(async (req, res) => {
 
 	ticket.status = "in_progress";
 	ticket.admin = req.user.username; // Admin taking over the ticket
+	ticket.adminFullName = req.user.fullName;
 	await ticket.save();
 
 	res.json(ticket);

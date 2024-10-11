@@ -109,10 +109,11 @@ const DashBoard = () => {
 						.map((ticket) => (
 							<div className="row py-2 border-bottom align-items-center row-moloz" key={ticket.id}>
 								<div className="col-1">#{ticket.id}</div>
-								<div className="col-3 color-blue">{ticket.name}</div>
+
 								<div className="col-2">{ticket.department}</div>
 
 								<Tooltip type="dashboard" data={ticket.description} />
+								<div className="col-3 color-blue">{ticket.adminFullName}</div>
 							</div>
 						))}
 
