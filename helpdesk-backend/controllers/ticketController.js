@@ -1,6 +1,7 @@
 // backend/controllers/ticketController.js
 const asyncHandler = require("express-async-handler");
 const Ticket = require("../models/ticket");
+const writeLog = require("../logger");
 
 // @desc    Create a new ticket
 // @route   POST /api/tickets/create
@@ -74,20 +75,24 @@ const closeTicket = asyncHandler(async (req, res) => {
 
 	const ticket = await Ticket.findByPk(req.params.id);
 
+	if (!req.params.id.match(/[0-9]+/)) {
+		res.status(400).json({ error: "Nu am gasit id-ul Ticket-ului!" });
+	}
+
 	if (!ticket) {
 		res.status(404).json({ error: "Ticket de negasit!" });
 	}
 
 	if (ticket.status !== "in_progress") {
-		res.status(400).json({ error: "Ticket-ul nu este in progress" });
-	}
-
-	if (!timeSpan) {
-		res.status(401).json({ error: "Nu ati introdus durata Ticket-ului!" });
+		res.status(400).json({ error: "Ticket-ul nu este in progress sau este inchis!" });
 	}
 
 	if (!solvingRemark) {
 		res.status(401).json({ error: "Nu ati introdus descrierea rezolvarii Ticket-ului!" });
+	}
+
+	if (!timeSpan) {
+		res.status(401).json({ error: "Nu ati introdus durata Ticket-ului!" });
 	}
 
 	ticket.status = "closed";

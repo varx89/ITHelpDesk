@@ -80,6 +80,10 @@ Ticket.init(
 		admin: {
 			type: DataTypes.STRING, // Admin handling the ticket
 		},
+		adminFullName: {
+			type: DataTypes.STRING, // Admin handling the ticket
+		},
+		// Add other fields as needed
 	},
 	{
 		sequelize,

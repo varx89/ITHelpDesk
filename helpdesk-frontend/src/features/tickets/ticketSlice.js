@@ -39,9 +39,9 @@ export const takeTicket = createAsyncThunk("tickets/take", async (id, thunkAPI) 
 	}
 });
 
-export const closeTicket = createAsyncThunk("tickets/close", async ({ id, solvingRemark }, thunkAPI) => {
+export const closeTicket = createAsyncThunk("tickets/close", async ({ id, solvingRemark, timeSpan }, thunkAPI) => {
 	try {
-		const response = await axios.put(`${API_URL}/api/tickets/close/${id}`, { solvingRemark }, tokenAuthorization(thunkAPI));
+		const response = await axios.put(`${API_URL}/api/tickets/close/${id}`, { id, solvingRemark, timeSpan }, tokenAuthorization(thunkAPI));
 		return response.data;
 	} catch (error) {
 		const message = error.response.data || "Invalid 404";
@@ -76,16 +76,24 @@ const ticketSlice = createSlice({
 			.addCase(takeTicket.fulfilled, (state, action) => {
 				state.tickets = state.tickets.filter((ticket) => ticket.id !== action.payload.id);
 			})
+
 			.addCase(closeTicket.fulfilled, (state, action) => {
 				const index = state.tickets.findIndex((ticket) => ticket.id === action.payload.id);
-				state.tickets[index] = action.payload;
-				state.error = "";
-				state.success = "Ticket inchis cu success!";
+				if (index !== -1) {
+					state.tickets[index] = action.payload;
+					state.error = "";
+					state.success = "Ticket inchis cu success!";
+				}
 			})
 			.addCase(closeTicket.rejected, (state, action) => {
 				const index = state.tickets.findIndex((ticket) => ticket.id === action.payload.id);
-				state.tickets[index] = action.payload;
-				state.error = action.payload;
+
+				if (index !== -1) {
+					state.tickets[index] = action.payload;
+					state.error = action.payload.error;
+				}
+				state.error = action.payload.error;
+				state.success = "";
 			});
 	},
 });

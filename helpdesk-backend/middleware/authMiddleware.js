@@ -20,21 +20,18 @@ const protect = asyncHandler(async (req, res, next) => {
 			req.user = await User.findByPk(decoded.id);
 
 			if (!req.user) {
-				res.status(401);
-				throw new Error("Not authorized, user not found");
+				res.status(401).json({ error: "Access neautorizat, va rugam dati refresh!" });
 			}
 
 			next(); // Proceed to the next middleware or route handler
 		} catch (error) {
 			console.error(error);
-			res.status(401);
-			throw new Error("Not authorized, token failed");
+			res.status(401).json({ error: "Access neautorizat, va rugam dati refresh!" });
 		}
 	}
 
 	if (!token) {
-		res.status(401);
-		throw new Error("Not authorized, no token");
+		res.status(401).json({ error: "Access neautorizat, va rugam dati refresh!" });
 	}
 });
 

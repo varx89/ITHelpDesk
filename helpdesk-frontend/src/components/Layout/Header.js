@@ -1,18 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SIGLA from "../../assets/images/SIGLA2021_no_bg.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../features/user/userSlice";
+import useTokenExpirationChecker from "../../features/hooks/useTokenExpirationChecker";
 
 const Header = () => {
-	const { user } = useSelector((state) => state.user);
+	const { user, error } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
 	const logoutUser = () => {
 		dispatch(logout());
-		navigate("/");
+		navigate("/login");
 	};
+
+	useTokenExpirationChecker();
+
 	return (
 		<>
 			<header id="header" className="border-bottom border-1">
@@ -49,37 +53,42 @@ const Header = () => {
 										Căutare
 									</button>
 								</form>
+
 								<li className="nav-item dropdown d-flex flex-wrap">
-									<div className="text-center d-flex flex-wrap justify-content-center align-items-center">
-										<span className="fw-bold text-info-emphasis">{user?.fullName}</span>
-									</div>
-									<a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-										<img
-											src={`https://ui-avatars.com/api/?name=${user?.fullName}&background=0D8ABC&color=fff`}
-											className="rounded-circle resize-img-nav-profile"
-											alt="Profil"
-										/>
-									</a>
-									<ul className="dropdown-menu dropdown-menu-end">
-										<li>
-											<a className="dropdown-item" href="#">
-												<i className="fa-solid fa-user fa-xs"></i> Profil
+									{user?.token && (
+										<>
+											<div className="text-center d-flex flex-wrap justify-content-center align-items-center">
+												<span className="fw-bold text-info-emphasis">{user?.fullName}</span>
+											</div>
+											<a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+												<img
+													src={`https://ui-avatars.com/api/?name=${user?.fullName}&background=0D8ABC&color=fff`}
+													className="rounded-circle resize-img-nav-profile"
+													alt="Profil"
+												/>
 											</a>
-										</li>
-										<li>
-											<a className="dropdown-item" href="#">
-												<i className="fa-solid fa-gear fa-xs"></i> Setări
-											</a>
-										</li>
-										<li>
-											<hr className="dropdown-divider" />
-										</li>
-										<li>
-											<a onClick={logoutUser} className="dropdown-item" href="#">
-												<i className="fa-solid fa-right-from-bracket fa-xs"></i> Ieșire
-											</a>
-										</li>
-									</ul>
+											<ul className="dropdown-menu dropdown-menu-end">
+												<li>
+													<a className="dropdown-item" href="#">
+														<i className="fa-solid fa-user fa-xs"></i> Profil
+													</a>
+												</li>
+												<li>
+													<a className="dropdown-item" href="#">
+														<i className="fa-solid fa-gear fa-xs"></i> Setări
+													</a>
+												</li>
+												<li>
+													<hr className="dropdown-divider" />
+												</li>
+												<li>
+													<a onClick={logoutUser} className="dropdown-item" href="#">
+														<i className="fa-solid fa-right-from-bracket fa-xs"></i> Ieșire
+													</a>
+												</li>
+											</ul>
+										</>
+									)}
 								</li>
 							</ul>
 						</div>

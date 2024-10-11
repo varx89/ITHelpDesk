@@ -1,0 +1,82 @@
+2024-10-09T07:46:02.444Z - timeSpan: 12
+2024-10-09T07:46:02.443Z - solvingRemark: ffdsdf
+2024-10-09T07:47:28.612Z - solvingRemark: asdsadas
+2024-10-09T07:47:28.613Z - timeSpan: 12
+2024-10-09T07:47:28.613Z - re.params: 7
+2024-10-09T07:56:31.815Z - re.params: 3
+2024-10-09T07:56:31.814Z - solvingRemark: sdfsdfsd
+2024-10-09T07:56:31.815Z - timeSpan: 
+2024-10-09T08:19:35.820Z - solvingRemark: sdfsdf
+2024-10-09T08:19:35.821Z - timeSpan: 12
+2024-10-09T08:19:35.821Z - re.params: 3
+2024-10-09T08:21:51.561Z - solvingRemark: sdfsdf
+2024-10-09T08:21:51.562Z - timeSpan: 12
+2024-10-09T08:21:51.562Z - re.params: 3
+2024-10-09T08:22:29.559Z - timeSpan: 12
+2024-10-09T08:22:29.559Z - re.params: 3
+2024-10-09T08:22:29.558Z - solvingRemark: sdfsdf
+2024-10-09T08:22:29.564Z - ticket: {"id":3,"name":"Luciana Petran","username":"a03042","department":"Achizitii","description":"moloz Andrei","status":"in_progress","solvingRemark":null,"timeSpan":0,"closedAt":null,"admin":"a03042","createdAt":"2024-09-26T07:07:46.000Z","updatedAt":"2024-10-02T07:14:36.000Z"}
+2024-10-09T08:22:44.704Z - timeSpan: 12
+2024-10-09T08:22:44.704Z - solvingRemark: sdfsdf
+2024-10-09T08:22:44.704Z - re.params: 3
+2024-10-09T08:22:44.706Z - ticket: {"id":3,"name":"Luciana Petran","username":"a03042","department":"Achizitii","description":"moloz Andrei","status":"closed","solvingRemark":"sdfsdf","timeSpan":12,"closedAt":"2024-10-09T08:22:29.000Z","admin":"a03042","createdAt":"2024-09-26T07:07:46.000Z","updatedAt":"2024-10-09T08:22:29.000Z"}
+2024-10-09T08:24:34.790Z - ticket: {"id":7,"name":"Luciana Petran","username":"a03042","department":"Juridic","description":"molozsogpodfgjfdpgd rrdhfyju","status":"in_progress","solvingRemark":null,"timeSpan":0,"closedAt":null,"admin":"a03042","createdAt":"2024-10-02T07:56:54.000Z","updatedAt":"2024-10-03T12:21:03.000Z"}
+2024-10-09T08:24:34.785Z - timeSpan: 
+2024-10-09T08:24:34.785Z - solvingRemark: 
+2024-10-09T08:24:34.785Z - re.params: 7
+2024-10-09T08:25:02.997Z - ticket: {"id":6,"name":"Luciana Petran","username":"a03042","department":"Juridic","description":"nu porneste imprimanat si nu merge dansoft, probabil trebuie restart","status":"in_progress","solvingRemark":null,"timeSpan":0,"closedAt":null,"admin":"a03042","createdAt":"2024-10-02T07:20:07.000Z","updatedAt":"2024-10-02T07:22:07.000Z"}
+2024-10-09T08:25:02.994Z - timeSpan: 11
+2024-10-09T08:25:02.993Z - solvingRemark: sdfsdfsdfsd
+2024-10-09T08:25:02.994Z - re.params: 6
+2024-10-09T08:25:34.712Z - re.params: 6
+2024-10-09T08:25:34.712Z - timeSpan: 11
+2024-10-09T08:25:34.717Z - ticket: {"id":6,"name":"Luciana Petran","username":"a03042","department":"Juridic","description":"nu porneste imprimanat si nu merge dansoft, probabil trebuie restart","status":"closed","solvingRemark":"sdfsdfsdfsd","timeSpan":11,"closedAt":"2024-10-09T08:25:02.000Z","admin":"a03042","createdAt":"2024-10-02T07:20:07.000Z","updatedAt":"2024-10-09T08:25:02.000Z"}
+2024-10-09T08:25:34.712Z - solvingRemark: sdfsdfsdfsd
+2024-10-09T08:28:21.412Z - solvingRemark: 
+2024-10-09T08:28:21.417Z - ticket: {"id":9,"name":"Luciana Petran","username":"a03042","department":"Achizitii","description":"luciana 23r43","status":"in_progress","solvingRemark":null,"timeSpan":0,"closedAt":null,"admin":"a03042","createdAt":"2024-10-03T12:33:54.000Z","updatedAt":"2024-10-07T12:34:21.000Z"}
+2024-10-09T08:28:21.412Z - timeSpan: 
+2024-10-09T08:28:21.412Z - re.params: 9
+2024-10-09T08:29:27.944Z - solvingRemark: 
+2024-10-09T08:29:27.944Z - re.params: 7
+2024-10-09T08:29:27.944Z - timeSpan: 
+2024-10-09T08:29:27.949Z - ticket: {"id":7,"name":"Luciana Petran","username":"a03042","department":"Juridic","description":"molozsogpodfgjfdpgd rrdhfyju","status":"in_progress","solvingRemark":null,"timeSpan":0,"closedAt":null,"admin":"a03042","createdAt":"2024-10-02T07:56:54.000Z","updatedAt":"2024-10-03T12:21:03.000Z"}
+2024-10-09T08:32:09.096Z - timeSpan: 
+2024-10-09T08:32:09.096Z - solvingRemark: 
+2024-10-09T08:32:09.101Z - ticket: {"id":7,"name":"Luciana Petran","username":"a03042","department":"Juridic","description":"molozsogpodfgjfdpgd rrdhfyju","status":"in_progress","solvingRemark":null,"timeSpan":0,"closedAt":null,"admin":"a03042","createdAt":"2024-10-02T07:56:54.000Z","updatedAt":"2024-10-03T12:21:03.000Z"}
+2024-10-09T08:32:09.096Z - re.params: 7
+2024-10-09T08:33:07.655Z - re.params: 7
+2024-10-09T08:33:07.654Z - solvingRemark: 
+2024-10-09T08:33:07.655Z - timeSpan: 
+2024-10-09T08:33:07.659Z - ticket: {"id":7,"name":"Luciana Petran","username":"a03042","department":"Juridic","description":"molozsogpodfgjfdpgd rrdhfyju","status":"in_progress","solvingRemark":null,"timeSpan":0,"closedAt":null,"admin":"a03042","createdAt":"2024-10-02T07:56:54.000Z","updatedAt":"2024-10-03T12:21:03.000Z"}
+2024-10-09T08:34:27.147Z - re.params: 7
+2024-10-09T08:34:27.147Z - solvingRemark: asdasdsa
+2024-10-09T08:34:27.153Z - ticket: {"id":7,"name":"Luciana Petran","username":"a03042","department":"Juridic","description":"molozsogpodfgjfdpgd rrdhfyju","status":"in_progress","solvingRemark":null,"timeSpan":0,"closedAt":null,"admin":"a03042","createdAt":"2024-10-02T07:56:54.000Z","updatedAt":"2024-10-03T12:21:03.000Z"}
+2024-10-09T08:34:27.147Z - timeSpan: 
+2024-10-09T08:39:32.342Z - solvingRemark: 
+2024-10-09T08:39:32.342Z - timeSpan: 
+2024-10-09T08:39:32.342Z - re.params: 9
+2024-10-09T08:39:32.348Z - ticket: {"id":9,"name":"Luciana Petran","username":"a03042","department":"Achizitii","description":"luciana 23r43","status":"in_progress","solvingRemark":null,"timeSpan":0,"closedAt":null,"admin":"a03042","createdAt":"2024-10-03T12:33:54.000Z","updatedAt":"2024-10-07T12:34:21.000Z"}
+2024-10-09T08:39:43.949Z - re.params: 9
+2024-10-09T08:39:43.949Z - solvingRemark: asdsadasd
+2024-10-09T08:39:43.949Z - timeSpan: 122
+2024-10-09T08:39:43.950Z - ticket: {"id":9,"name":"Luciana Petran","username":"a03042","department":"Achizitii","description":"luciana 23r43","status":"in_progress","solvingRemark":null,"timeSpan":0,"closedAt":null,"admin":"a03042","createdAt":"2024-10-03T12:33:54.000Z","updatedAt":"2024-10-07T12:34:21.000Z"}
+2024-10-09T08:41:36.316Z - solvingRemark: dsadsadasd
+2024-10-09T08:41:36.316Z - re.params: 22
+2024-10-09T08:41:36.321Z - ticket: {"id":22,"name":"Luciana Petran","username":"a03042","department":"Achizitii","description":"jlkljkljkl","status":"in_progress","solvingRemark":null,"timeSpan":0,"closedAt":null,"admin":"a03042","createdAt":"2024-10-04T12:37:13.000Z","updatedAt":"2024-10-07T12:40:23.000Z"}
+2024-10-09T08:41:36.316Z - timeSpan: 12
+2024-10-09T08:42:16.998Z - ticket: {"id":22,"name":"Luciana Petran","username":"a03042","department":"Achizitii","description":"jlkljkljkl","status":"closed","solvingRemark":"dsadsadasd","timeSpan":12,"closedAt":"2024-10-09T08:41:36.000Z","admin":"a03042","createdAt":"2024-10-04T12:37:13.000Z","updatedAt":"2024-10-09T08:41:36.000Z"}
+2024-10-09T08:42:16.993Z - solvingRemark: dsadsadasd
+2024-10-09T08:42:16.993Z - re.params: 22
+2024-10-09T08:42:16.993Z - timeSpan: 12
+2024-10-09T08:43:31.275Z - solvingRemark: fsdfsdf
+2024-10-09T08:43:31.275Z - timeSpan: 
+2024-10-09T08:43:31.279Z - ticket: {"id":7,"name":"Luciana Petran","username":"a03042","department":"Juridic","description":"molozsogpodfgjfdpgd rrdhfyju","status":"in_progress","solvingRemark":null,"timeSpan":0,"closedAt":null,"admin":"a03042","createdAt":"2024-10-02T07:56:54.000Z","updatedAt":"2024-10-03T12:21:03.000Z"}
+2024-10-09T08:43:31.275Z - re.params: 7
+2024-10-09T08:43:45.592Z - solvingRemark: fsdfsdf
+2024-10-09T08:43:45.592Z - re.params: 7
+2024-10-09T08:43:45.592Z - timeSpan: 12
+2024-10-09T08:43:45.593Z - ticket: {"id":7,"name":"Luciana Petran","username":"a03042","department":"Juridic","description":"molozsogpodfgjfdpgd rrdhfyju","status":"in_progress","solvingRemark":null,"timeSpan":0,"closedAt":null,"admin":"a03042","createdAt":"2024-10-02T07:56:54.000Z","updatedAt":"2024-10-03T12:21:03.000Z"}
+2024-10-09T08:43:50.111Z - solvingRemark: fsdfsdf
+2024-10-09T08:43:50.111Z - re.params: 7
+2024-10-09T08:43:50.111Z - timeSpan: 12
+2024-10-09T08:43:50.113Z - ticket: {"id":7,"name":"Luciana Petran","username":"a03042","department":"Juridic","description":"molozsogpodfgjfdpgd rrdhfyju","status":"closed","solvingRemark":"fsdfsdf","timeSpan":12,"closedAt":"2024-10-09T08:43:45.000Z","admin":"a03042","createdAt":"2024-10-02T07:56:54.000Z","updatedAt":"2024-10-09T08:43:45.000Z"}
