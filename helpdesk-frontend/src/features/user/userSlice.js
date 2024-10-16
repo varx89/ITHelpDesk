@@ -33,6 +33,17 @@ export const loginUser = createAsyncThunk("user/login", async (userData, thunkAP
 	}
 });
 
+// export const fetchDepartments = createAsyncThunk("user/fetchDepartments", async (thunkAPI) => {
+// 	try {
+// 		const response = await axios.get(`${API_URL}/api/users/fetchDepartments`);
+// 		console.log(response.data);
+// 		return response.data;
+// 	} catch (error) {
+// 		const message = error.response.data || "Invalid 404";
+// 		return thunkAPI.rejectWithValue(message);
+// 	}
+// });
+
 // export const logoutUser = createAsyncThunk("user/logout", async () => {
 // 	localStorage.removeItem("user");
 // 	localStorage.removeItem("error");
@@ -56,27 +67,23 @@ const userSlice = createSlice({
 		builder
 			.addCase(registerUser.fulfilled, (state, action) => {
 				state.message = action.payload.success;
+				state.success = "Utilizator inregistrat cu success!";
+				state.error = "";
 			})
 			.addCase(registerUser.rejected, (state, action) => {
 				state.error = action.error.success;
+				state.success = "";
 			})
 
 			.addCase(loginUser.fulfilled, (state, action) => {
 				state.user = action.payload;
-				state.success = action.payload.success;
+				state.success = "Utilizator logat cu success";
 				state.error = "";
 			})
 			.addCase(loginUser.rejected, (state, action) => {
 				state.error = action.payload.error;
-			})
-
-			.addCase(fetchUsers.fulfilled, (state, action) => {
-				state.user = action.payload;
+				state.success = "";
 			});
-
-		// .addCase(logoutUser.fulfilled, (state, action) => {
-		// 	state.user = null;
-		// });
 	},
 });
 

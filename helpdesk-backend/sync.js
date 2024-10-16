@@ -2,6 +2,7 @@ const sequelize = require("./config/db"); // Import your Sequelize instance
 
 const User = require("./models/user");
 const Ticket = require("./models/ticket");
+const Department = require("./models/department");
 
 // print process.argv
 let force = "";

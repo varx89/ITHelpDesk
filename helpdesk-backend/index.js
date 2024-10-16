@@ -4,6 +4,7 @@ const sequelize = require("./config/db"); // Import your Sequelize instance
 const cors = require("cors");
 const userRoutes = require("./routes/userRoutes");
 const ticketRoutes = require("./routes/ticketRoutes");
+const departmentRoutes = require("./routes/departmentRoutes");
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(express.json());
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/tickets", ticketRoutes);
+app.use("/api/departments", departmentRoutes);
 
 // Sync models with the database
 // sequelize

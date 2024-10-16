@@ -14,7 +14,7 @@ const Tooltip = (props) => {
 	}, []); // Empty dependency array means this runs once on mount
 
 	if (props.type === "dashboard") {
-		tooltip = "col-6 text-truncate text-warning2";
+		tooltip = "col-7 text-truncate text-warning2";
 	} else if (props.type === "admin") {
 		tooltip = "col-4 text-truncate text-warning2";
 	}

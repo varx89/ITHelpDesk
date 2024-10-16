@@ -310,7 +310,7 @@ const AdminPanel = () => {
 										<div className="col-2 color-blue">{ticket.name}</div>
 										<div className="col-2">{ticket.department}</div>
 										<Tooltip type="admin" data={ticket.description} />
-										{/* <div className="col-2 text-warning-emphasis">{getAdminFullName(ticket.admin)}</div> */}
+										<div className="col-2 text-warning-emphasis">{ticket?.adminFullName}</div>
 									</div>
 								))}
 

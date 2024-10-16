@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { getAllTickets } from "../features/tickets/ticketSlice";
+import { getAllTickets, createTicket } from "../features/tickets/ticketSlice";
 import Tooltip from "./Layout/Tooltip";
-import departments from "../utils/js-departments";
-import { createTicket } from "../features/tickets/ticketSlice";
+import preloading from "../assets/images/preloader.gif";
+import { fetchDepartments } from "../features/departments/departmentSlice";
+import DataList from "./Datalist";
 
 const DashBoard = () => {
 	const { user } = useSelector((state) => state.user);
 	const { tickets, error, success } = useSelector((state) => state.tickets);
+	const { departments } = useSelector((state) => state.departments);
 
 	const [formData, setFormData] = useState({ name: user.fullName, department: "", description: "" });
 	const { name, department, description } = formData;
@@ -22,6 +24,10 @@ const DashBoard = () => {
 	useEffect(() => {
 		dispatch(getAllTickets());
 	}, [dispatch, tickets, user]);
+
+	const getDepartments = () => {
+		dispatch(fetchDepartments());
+	};
 
 	const onChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -71,13 +77,26 @@ const DashBoard = () => {
 							<input type="text" className="form-control" id="ticketCreator" name="ticketCreator" value={disabledName()} disabled />
 						</div>
 						<div className="mb-3">
-							<select className="form-select" name="department" value={department} onChange={onChange} id="department" aria-label="department">
+							<DataList />
+						</div>
+
+						<div className="mb-3">
+							<select
+								className="form-select"
+								name="department"
+								value={department}
+								onChange={onChange}
+								onClick={getDepartments}
+								id="department"
+								aria-label="department"
+							>
 								<option value="defaultx">Selecteaza Departament</option>
-								{departments.map((department) => (
-									<option key={department.value} value={department.value}>
-										{department.label}
-									</option>
-								))}
+								{departments &&
+									departments.map((dep) => (
+										<option key={dep.department} value={dep.department}>
+											{dep.departmentFullName}
+										</option>
+									))}
 							</select>
 						</div>
 						<div className="mb-3">
@@ -103,17 +122,19 @@ const DashBoard = () => {
 					</div>
 
 					{tickets
-						.filter((ticket) => ticket.status && ticket.username === user.username)
+						.filter((ticket) => ticket.status !== "closed" && ticket.username === user.username)
 						.toReversed()
 						.slice(0, visibleNewCount)
 						.map((ticket) => (
-							<div className="row py-2 border-bottom align-items-center row-moloz" key={ticket.id}>
-								<div className="col-1">#{ticket.id}</div>
+							<div className="row py-2 border-bottom align-items-center row-moloz d-flex justify-content-between" key={ticket.id}>
+								<div className="col-1 fw-bold fs-7 text-secondary">#{ticket.id}</div>
 
-								<div className="col-2">{ticket.department}</div>
+								{/* <div className="col-2">{ticket.name}</div> */}
 
 								<Tooltip type="dashboard" data={ticket.description} />
-								<div className="col-3 color-blue">{ticket.adminFullName}</div>
+								<div className="col-3 color-blue text-end">
+									{ticket?.adminFullName ? ticket?.adminFullName : <img src={preloading} alt="In asteptare..." />}
+								</div>
 							</div>
 						))}
 
