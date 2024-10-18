@@ -6,7 +6,7 @@ import { logout } from "../../features/user/userSlice";
 import useTokenExpirationChecker from "../../features/hooks/useTokenExpirationChecker";
 
 const Header = () => {
-	const { user, error } = useSelector((state) => state.user);
+	const { user } = useSelector((state) => state.user);
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
 
@@ -47,12 +47,12 @@ const Header = () => {
 										CAA - IT Portal
 									</a>
 								</li>
-								<form className="d-flex align-items-center" role="search">
+								{/* <form className="d-flex align-items-center" role="search">
 									<input className="form-control me-2" type="search" placeholder="Căutare..." aria-label="Căutare" />
 									<button className="btn btn-info" type="submit">
 										Căutare
 									</button>
-								</form>
+								</form> */}
 
 								<li className="nav-item dropdown d-flex flex-wrap">
 									{user?.token && (

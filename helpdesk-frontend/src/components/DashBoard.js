@@ -5,25 +5,51 @@ import { getAllTickets, createTicket } from "../features/tickets/ticketSlice";
 import Tooltip from "./Layout/Tooltip";
 import preloading from "../assets/images/preloader.gif";
 import { fetchDepartments } from "../features/departments/departmentSlice";
-import DataList from "./Datalist";
+import DataList from "./DataList";
+import Countdown from "./Countdown";
 
 const DashBoard = () => {
 	const { user } = useSelector((state) => state.user);
 	const { tickets, error, success } = useSelector((state) => state.tickets);
 	const { departments } = useSelector((state) => state.departments);
 
-	const [formData, setFormData] = useState({ name: user.fullName, department: "", description: "" });
+	const [selectedItemDatalist, setSelectedItemDatalist] = useState("");
+	const [countdownTimer, setCountdownTimer] = useState(null);
+	const [formData, setFormData] = useState({ name: user.fullName, nameAllocate: selectedItemDatalist, department: "", description: "" });
 	const { name, department, description } = formData;
+
+	// console.log(formData);
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
+
+	const handleDatalist = (item) => {
+		setSelectedItemDatalist(item);
+	};
+
+	const handleCountDown = (time) => {
+		setCountdownTimer(time);
+	};
 
 	const recordPerPage = 5;
 	const [visibleNewCount, setVisibleNewCount] = useState(recordPerPage);
 
 	useEffect(() => {
 		dispatch(getAllTickets());
-	}, [dispatch, tickets, user]);
+	}, [dispatch]);
+
+	useEffect(() => {
+		if (countdownTimer) {
+			dispatch(getAllTickets());
+		}
+	}, [dispatch, tickets, user, countdownTimer]);
+
+	useEffect(() => {
+		setFormData((prevFormData) => ({
+			...prevFormData,
+			nameAllocate: selectedItemDatalist,
+		}));
+	}, [selectedItemDatalist]);
 
 	const getDepartments = () => {
 		dispatch(fetchDepartments());
@@ -35,8 +61,8 @@ const DashBoard = () => {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
+		setFormData({ name: user.fullName, nameAllocate: selectedItemDatalist, department: "", description: "" });
 		dispatch(createTicket(formData));
-		setFormData({ name: user.fullName, department: "", description: "" });
 	};
 
 	const disabledName = () => {
@@ -44,7 +70,7 @@ const DashBoard = () => {
 	};
 
 	const ticketCount = () => {
-		return tickets.filter((ticket) => ticket.username === user.username).length;
+		return tickets.filter((ticket) => ticket.username === user.username && ticket.status !== "closed").length;
 	};
 
 	const showMoreNewTickets = () => {
@@ -76,11 +102,13 @@ const DashBoard = () => {
 						<div className="mb-3">
 							<input type="text" className="form-control" id="ticketCreator" name="ticketCreator" value={disabledName()} disabled />
 						</div>
-						<div className="mb-3">
-							<DataList />
-						</div>
+						{user && user.role === "admin" && (
+							<div className="mb-3">
+								<DataList onSelectItem={handleDatalist} />
+							</div>
+						)}
 
-						<div className="mb-3">
+						<div className="mb-3 text-center">
 							<select
 								className="form-select"
 								name="department"
@@ -116,8 +144,9 @@ const DashBoard = () => {
 			<div id="tickets" className="m-3 p-4 bg-white rounded border border-1 shadow-lg flex-grow-1 max-width-fit">
 				<div className="container">
 					<div className="row mb-3">
-						<div className="col-12 col-md-4 text-warning-emphasis">
+						<div className="col-12 col-md-4 text-warning-emphasis w-100">
 							<strong>Ticketele mele ({ticketCount()})</strong>
+							<span> - Reincarcare in {<Countdown onCountdownComplete={handleCountDown} />}s</span>
 						</div>
 					</div>
 
@@ -133,7 +162,7 @@ const DashBoard = () => {
 
 								<Tooltip type="dashboard" data={ticket.description} />
 								<div className="col-3 color-blue text-end">
-									{ticket?.adminFullName ? ticket?.adminFullName : <img src={preloading} alt="In asteptare..." />}
+									{ticket?.adminFullName ? ticket?.adminFullName : <img src={preloading} className="w-25 opacity-25" alt="In asteptare..." />}
 								</div>
 							</div>
 						))}

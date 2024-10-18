@@ -14,7 +14,8 @@ export const createTicket = createAsyncThunk("tickets/create", async (ticketData
 		const response = await axios.post(`${API_URL}/api/tickets/create`, ticketData, tokenAuthorization(thunkAPI));
 		return response.data;
 	} catch (error) {
-		const message = (error.response && error.response.data && error.response.data.error) || error.message || "Something went wrong";
+		// const message = (error.response && error.response.data && error.response.data.error) || error.message || "Something went wrong";
+		const message = error.response.data || "Invalid 404";
 		return thunkAPI.rejectWithValue(message);
 	}
 });
@@ -24,7 +25,7 @@ export const getAllTickets = createAsyncThunk("tickets/getAll", async (_, thunkA
 		const response = await axios.get(`${API_URL}/api/tickets`, tokenAuthorization(thunkAPI));
 		return response.data;
 	} catch (error) {
-		const message = (error.response && error.response.data && error.response.data.error) || error.message || "Something went wrong";
+		const message = error.response.data || "Invalid 404";
 		return thunkAPI.rejectWithValue(message);
 	}
 });

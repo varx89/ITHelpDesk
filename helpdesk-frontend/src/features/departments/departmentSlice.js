@@ -25,7 +25,6 @@ const departmentSlice = createSlice({
 		builder
 			.addCase(fetchDepartments.fulfilled, (state, action) => {
 				state.departments = action.payload;
-				console.log("state.departments", state.departments);
 			})
 			.addCase(fetchDepartments.rejected, (state, action) => {
 				state.error = action.payload.error;

@@ -3,7 +3,8 @@ import ticketReducer from "./features/tickets/ticketSlice";
 import departmentReducer from "./features/departments/departmentSlice";
 import userReducer from "./features/user/userSlice";
 import fetchUsersReducer from "./features/user/fetchUsersSlice";
-import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
+// import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
+import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
 const persistConfig = {
@@ -24,9 +25,10 @@ export const store = configureStore({
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({
-			serializableCheck: {
-				ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-			},
+			serializableCheck: false,
+			// serializableCheck: {
+			// 	ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+			// },
 		}),
 });
 

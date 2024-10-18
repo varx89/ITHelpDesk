@@ -51,6 +51,9 @@ Ticket.init(
 			type: DataTypes.STRING,
 			allowNull: false,
 		},
+		nameAllocate: {
+			type: DataTypes.STRING,
+		},
 		username: {
 			type: DataTypes.STRING,
 			allowNull: false,

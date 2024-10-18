@@ -7,11 +7,14 @@ const writeLog = require("../logger");
 // @route   POST /api/tickets/create
 // @access  Private (Normal User Only)
 const createTicket = asyncHandler(async (req, res) => {
-	const { name, department, description } = req.body;
+	const { name, nameAllocate, department, description } = req.body;
 
 	if (!name) {
 		return res.status(401).json({ error: "Va rog introduceti numele dumneavoastra!" });
 	}
+	// if (!nameAllocate) {
+	// 	return res.status(401).json({ error: "Va rog sa selectati numele utilizatorului!" });
+	// }
 	if (!department) {
 		return res.status(401).json({ error: "Va rog sa selectati departamentul!" });
 	}
@@ -24,7 +27,8 @@ const createTicket = asyncHandler(async (req, res) => {
 
 	const ticket = await Ticket.create({
 		name,
-		username: req.user.username, // The logged-in user's username
+		username: req.user.username,
+		nameAllocate, // The logged-in user's username
 		department,
 		description,
 		status: "new",
