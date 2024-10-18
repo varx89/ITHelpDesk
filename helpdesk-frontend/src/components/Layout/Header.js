@@ -3,7 +3,6 @@ import SIGLA from "../../assets/images/SIGLA2021_no_bg.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../features/user/userSlice";
-import useTokenExpirationChecker from "../../features/hooks/useTokenExpirationChecker";
 
 const Header = () => {
 	const { user } = useSelector((state) => state.user);
@@ -14,8 +13,6 @@ const Header = () => {
 		dispatch(logout());
 		navigate("/login");
 	};
-
-	useTokenExpirationChecker();
 
 	return (
 		<>
