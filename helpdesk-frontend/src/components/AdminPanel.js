@@ -71,10 +71,10 @@ const AdminPanel = () => {
 		return tickets.filter((ticket) => ticket.status === "new").length;
 	};
 	const ticketCountinProgress = () => {
-		return tickets.filter((ticket) => ticket.status === "in_progress" && ticket.admin === user.username).length;
+		return tickets.filter((ticket) => ticket.status === "in_progress" && ticket.admin === user?.username).length;
 	};
 	const ticketCountClosed = () => {
-		return tickets.filter((ticket) => ticket.status === "closed" && ticket.admin === user.username).length;
+		return tickets.filter((ticket) => ticket.status === "closed" && ticket.admin === user?.username).length;
 	};
 	const ticketCountTotal = () => {
 		return tickets.filter((ticket) => ticket.status === "closed").length;

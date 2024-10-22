@@ -3,6 +3,7 @@ import SIGLA from "../../assets/images/SIGLA2021_no_bg.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logout } from "../../features/user/userSlice";
+import useTypewriter from "../../features/hooks/useTypewriter";
 
 const Header = () => {
 	const { user } = useSelector((state) => state.user);
@@ -40,22 +41,24 @@ const Header = () => {
 										<i className="fa-brands fa-windows"></i>
 									</span>
 									<a className="nav-link color-header-title fw-bold share-tech-mono-regular" aria-current="page" href="#">
-										{" "}
-										CAA - IT Portal
+										{useTypewriter("CAA - IT Portal ", 500)}
 									</a>
 								</li>
-								{/* <form className="d-flex align-items-center" role="search">
-									<input className="form-control me-2" type="search" placeholder="Căutare..." aria-label="Căutare" />
-									<button className="btn btn-info" type="submit">
-										Căutare
-									</button>
-								</form> */}
 
 								<li className="nav-item dropdown d-flex flex-wrap">
 									{user?.token && (
 										<>
 											<div className="text-center d-flex flex-wrap justify-content-center align-items-center">
-												<span className="fw-bold text-info-emphasis">{user?.fullName}</span>
+												<span className="fw-bold text-info-emphasis">
+													{user && user?.role === "admin" ? (
+														<span className="pe-1">
+															<i class="fa-solid fa-star fa-xs text-warning"></i>
+														</span>
+													) : (
+														""
+													)}
+													{user?.fullName}
+												</span>
 											</div>
 											<a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
 												<img
@@ -66,15 +69,26 @@ const Header = () => {
 											</a>
 											<ul className="dropdown-menu dropdown-menu-end">
 												<li>
-													<a className="dropdown-item" href="#">
-														<i className="fa-solid fa-user fa-xs"></i> Profil
-													</a>
+													<span className="dropdown-item cursor-pointer" onClick={() => navigate("/admin")}>
+														<i class="fa-solid fa-fingerprint fa-xs"></i> Administrator
+													</span>
+												</li>
+												<hr className="dropdown-divider" />
+												<li>
+													<span className="dropdown-item cursor-pointer" onClick={() => navigate("/dashboard")}>
+														<i class="fa-solid fa-list-ul fa-xs"></i> Contul meu
+													</span>
+												</li>
+												{/* <li>
+													<span className="dropdown-item">
+														<i className="fa-solid fa-user"></i> Profil
+													</span>
 												</li>
 												<li>
-													<a className="dropdown-item" href="#">
-														<i className="fa-solid fa-gear fa-xs"></i> Setări
-													</a>
-												</li>
+													<span className="dropdown-item">
+														<i className="fa-solid fa-gear"></i> Setări
+													</span>
+												</li> */}
 												<li>
 													<hr className="dropdown-divider" />
 												</li>

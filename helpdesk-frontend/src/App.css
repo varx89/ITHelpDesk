@@ -136,3 +136,7 @@ body .resize-img-nav-profile {
 		max-width: 45%;
 	} */
 }
+
+.cursor-pointer {
+	cursor: pointer;
+}
