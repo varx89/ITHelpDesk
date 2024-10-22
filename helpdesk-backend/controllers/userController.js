@@ -62,6 +62,7 @@ const loginUser = asyncHandler(async (req, res) => {
 			username: user.username,
 			role: user.role,
 			fullName: user.fullName,
+			departmentID: user.departmentID,
 			token: token,
 		});
 		res.status(201).json({ success: "Utilizator autentificat cu success!" });
@@ -82,6 +83,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 			username: user.username,
 			role: user.role,
 			fullName: user.fullName,
+			departmentID: user.departmentID,
 		});
 	} else {
 		return res.status(404).json({ error: "Utilizator negasit!" });

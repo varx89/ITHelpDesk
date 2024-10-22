@@ -47,12 +47,12 @@ const Datalist = ({ onSelectItem }) => {
 		if (item !== 0) {
 			setQuery(item.fullName); // Set selected item name in the input field
 			setSelectedItem(item); // Save the selected object
-			onSelectItem(item.fullName);
+			onSelectItem(item);
 			setDataList([]); // Hide dropdown
 		} else {
 			setQuery("");
+			onSelectItem(0);
 			setSelectedItem(null);
-			onSelectItem("");
 			setDataList([]);
 		}
 	};

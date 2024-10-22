@@ -4,10 +4,12 @@ import { getAllTickets, takeTicket, closeTicket } from "../features/tickets/tick
 import { Navigate } from "react-router-dom";
 import Charts from "./Layout/Charts";
 import Tooltip from "./Layout/Tooltip";
+import { fetchDepartments } from "../features/departments/departmentSlice";
 
 const AdminPanel = () => {
 	const { tickets, error, success } = useSelector((state) => state.tickets);
 	const { user } = useSelector((state) => state.user);
+	const { departments, filter } = useSelector((state) => state.departments);
 	const [remark, setRemark] = useState("");
 	const [duration, setDuration] = useState("");
 
@@ -29,10 +31,10 @@ const AdminPanel = () => {
 		dispatch(getAllTickets());
 	}, [dispatch, showOpenTickets, showClosedTickets, showTotalTickets, tickets]);
 
-	// useEffect(() => {
-	// 	// This effect runs when showOpenTickets, showClosedTickets, or showTotalTickets changes
-	// 	// You can add logic here if you need to perform any actions when the filters change
-	// }, [showOpenTickets, showClosedTickets, showTotalTickets, tickets]);
+	// Fetch the departments when component mounts
+	useEffect(() => {
+		dispatch(fetchDepartments());
+	}, [dispatch]);
 
 	const toggleOpenTickets = () => {
 		setShowOpenTickets(!showOpenTickets);
@@ -146,7 +148,11 @@ const AdminPanel = () => {
 														className="form-control"
 														id="department"
 														name="department"
-														value={getTicketData(showCloseTicketId).department}
+														value={
+															(departments &&
+																departments.find((dep) => +dep.department === +getTicketData(showCloseTicketId).department)?.departmentFullName) ||
+															"Unknown Department"
+														}
 														disabled
 													/>
 												</div>
@@ -243,7 +249,9 @@ const AdminPanel = () => {
 											/>
 										</div>
 										<div className="col-2 color-blue">{ticket.name}</div>
-										<div className="col-2">{ticket.department}</div>
+										<div className="col-2">
+											{(departments && departments?.find((dep) => +dep.department === +ticket.department)?.departmentFullName) || "Unknown Department"}
+										</div>
 										<Tooltip type="admin" data={ticket.description} />
 										<div className="col-2 d-flex justify-content-end">
 											<button type="button" className="btn bg-danger text-white" onClick={() => handleCloseTicket(ticket.id)}>
@@ -278,7 +286,9 @@ const AdminPanel = () => {
 											/>
 										</div>
 										<div className="col-2 color-blue">{ticket.name}</div>
-										<div className="col-2">{ticket.department}</div>
+										<div className="col-2">
+											{(departments && departments.find((dep) => +dep.department === +ticket.department)?.departmentFullName) || "Unknown Department"}
+										</div>
 										<Tooltip type="admin" data={ticket.description} />
 									</div>
 								))}
@@ -308,7 +318,9 @@ const AdminPanel = () => {
 											/>
 										</div>
 										<div className="col-2 color-blue">{ticket.name}</div>
-										<div className="col-2">{ticket.department}</div>
+										<div className="col-2">
+											{(departments && departments.find((dep) => +dep.department === +ticket.department)?.departmentFullName) || "Unknown Department"}
+										</div>
 										<Tooltip type="admin" data={ticket.description} />
 										<div className="col-2 text-warning-emphasis">{ticket?.adminFullName}</div>
 									</div>
@@ -345,7 +357,9 @@ const AdminPanel = () => {
 										/>
 									</div>
 									<div className="col-2 color-blue">{ticket.name}</div>
-									<div className="col-2">Achizitii</div>
+									<div className="col-2">
+										{(departments && departments.find((dep) => +dep.department === +ticket.department)?.departmentFullName) || "Unknown Department"}
+									</div>
 									<Tooltip type="admin" data={ticket.description} />
 									<div className="col-2 d-flex justify-content-end">
 										<button type="button" className="btn bg-success text-white" onClick={() => handleTakeOver(ticket.id)}>

@@ -1,24 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllTickets, createTicket } from "../features/tickets/ticketSlice";
 import Tooltip from "./Layout/Tooltip";
 import preloading from "../assets/images/preloader.gif";
-import { fetchDepartments } from "../features/departments/departmentSlice";
+import { filterDepartment } from "../features/departments/departmentSlice";
 import DataList from "./DataList";
 import Countdown from "./Countdown";
 
 const DashBoard = () => {
 	const { user } = useSelector((state) => state.user);
 	const { tickets, error, success } = useSelector((state) => state.tickets);
-	const { departments } = useSelector((state) => state.departments);
+	const { departments, filter } = useSelector((state) => state.departments);
 
 	const [selectedItemDatalist, setSelectedItemDatalist] = useState("");
 	const [countdownTimer, setCountdownTimer] = useState(null);
-	const [formData, setFormData] = useState({ name: user.fullName, nameAllocate: selectedItemDatalist, department: "", description: "" });
-	const { name, department, description } = formData;
-
-	// console.log(formData);
+	const [formData, setFormData] = useState({ name: user.fullName, nameAllocate: "", department: "", description: "" });
+	const { name, department, nameAllocate, description } = formData;
 
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -36,24 +34,35 @@ const DashBoard = () => {
 
 	useEffect(() => {
 		dispatch(getAllTickets());
-	}, [dispatch]);
+	}, []);
+
+	useEffect(() => {
+		if (user?.departmentID) {
+			dispatch(filterDepartment(user?.departmentID));
+		}
+	}, [dispatch, user?.departmentID]);
+
+	useEffect(() => {
+		if (selectedItemDatalist !== 0) {
+			dispatch(filterDepartment(selectedItemDatalist?.departmentID));
+		} else if (selectedItemDatalist === 0) {
+			dispatch(filterDepartment(user?.departmentID));
+		}
+	}, [selectedItemDatalist]);
 
 	useEffect(() => {
 		if (countdownTimer) {
 			dispatch(getAllTickets());
 		}
-	}, [dispatch, tickets, user, countdownTimer]);
+	}, [countdownTimer]);
 
 	useEffect(() => {
 		setFormData((prevFormData) => ({
 			...prevFormData,
-			nameAllocate: selectedItemDatalist,
+			nameAllocate: selectedItemDatalist.username,
+			department: filter?.department,
 		}));
-	}, [selectedItemDatalist]);
-
-	const getDepartments = () => {
-		dispatch(fetchDepartments());
-	};
+	}, [selectedItemDatalist, filter]);
 
 	const onChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -79,6 +88,10 @@ const DashBoard = () => {
 
 	if (!user) {
 		navigate("/login");
+	}
+
+	if (selectedItemDatalist) {
+		console.log(selectedItemDatalist);
 	}
 
 	return (
@@ -109,23 +122,7 @@ const DashBoard = () => {
 						)}
 
 						<div className="mb-3 text-center">
-							<select
-								className="form-select"
-								name="department"
-								value={department}
-								onChange={onChange}
-								onClick={getDepartments}
-								id="department"
-								aria-label="department"
-							>
-								<option value="defaultx">Selecteaza Departament</option>
-								{departments &&
-									departments.map((dep) => (
-										<option key={dep.department} value={dep.department}>
-											{dep.departmentFullName}
-										</option>
-									))}
-							</select>
+							<input type="text" className="form-control" id="department" name="department" value={filter?.departmentFullName || ""} disabled />
 						</div>
 						<div className="mb-3">
 							<label htmlFor="description" className="form-label">

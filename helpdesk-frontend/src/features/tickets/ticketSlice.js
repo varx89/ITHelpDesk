@@ -10,12 +10,13 @@ const tokenAuthorization = (thunk) => {
 };
 
 export const createTicket = createAsyncThunk("tickets/create", async (ticketData, thunkAPI) => {
+	console.log(ticketData);
 	try {
 		const response = await axios.post(`${API_URL}/api/tickets/create`, ticketData, tokenAuthorization(thunkAPI));
 		return response.data;
 	} catch (error) {
-		// const message = (error.response && error.response.data && error.response.data.error) || error.message || "Something went wrong";
-		const message = error.response.data || "Invalid 404";
+		const message = (error.response && error.response.data && error.response.data.error) || error.message || "Invalid 404";
+		// const message = error.response.data || "Invalid 404";
 		return thunkAPI.rejectWithValue(message);
 	}
 });

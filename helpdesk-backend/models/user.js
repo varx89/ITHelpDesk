@@ -29,6 +29,10 @@ User.init(
 			type: DataTypes.ENUM("normal", "admin"),
 			defaultValue: "normal",
 		},
+		departmentID: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+		},
 	},
 	{
 		sequelize,
