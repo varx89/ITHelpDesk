@@ -2,7 +2,8 @@ import { configureStore } from "@reduxjs/toolkit";
 import ticketReducer from "./features/tickets/ticketSlice";
 import departmentReducer from "./features/departments/departmentSlice";
 import userReducer from "./features/user/userSlice";
-import fetchUsersReducer from "./features/user/fetchUsersSlice";
+import { fetchUsersReducer } from "./features/user/fetchUsersSlice";
+import { fetchUserReducer } from "./features/user/fetchUsersSlice";
 // import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from "redux-persist";
 import { persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -20,6 +21,7 @@ export const store = configureStore({
 		tickets: ticketReducer,
 		user: persistedReducer,
 		getUsers: fetchUsersReducer,
+		getUser: fetchUserReducer,
 		departments: departmentReducer,
 		// user: userReducer,
 	},

@@ -10,7 +10,6 @@ const tokenAuthorization = (thunk) => {
 };
 
 export const createTicket = createAsyncThunk("tickets/create", async (ticketData, thunkAPI) => {
-	console.log(ticketData);
 	try {
 		const response = await axios.post(`${API_URL}/api/tickets/create`, ticketData, tokenAuthorization(thunkAPI));
 		return response.data;

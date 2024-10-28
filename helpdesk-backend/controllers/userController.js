@@ -75,7 +75,7 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
-	const user = await User.findByPk(req.user.id);
+	const user = await User.findOne({ where: { username: req.params.id } });
 
 	if (user) {
 		res.json({
@@ -91,7 +91,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
 });
 
 const fetchUsers = asyncHandler(async (req, res) => {
-	const users = await User.findAll();
+	const users = await User.findAll({ where: { role: "admin" } });
 	if (!users) {
 		return res.status(404).json({ error: "Nu exista utilizatori in baza de date!" });
 	}

@@ -40,9 +40,13 @@ const Header = () => {
 									<span className="color-header-title">
 										<i className="fa-brands fa-windows"></i>
 									</span>
-									<a className="nav-link color-header-title fw-bold share-tech-mono-regular" aria-current="page" href="#">
+									<span
+										className="nav-link color-header-title fw-bold share-tech-mono-regular cursor-pointer"
+										aria-current="page"
+										onClick={() => navigate("/dashboard")}
+									>
 										{useTypewriter("CAA - IT Portal ", 500)}
-									</a>
+									</span>
 								</li>
 
 								<li className="nav-item dropdown d-flex flex-wrap">
@@ -52,7 +56,7 @@ const Header = () => {
 												<span className="fw-bold text-info-emphasis">
 													{user && user?.role === "admin" ? (
 														<span className="pe-1">
-															<i class="fa-solid fa-star fa-xs text-warning"></i>
+															<i className="fa-solid fa-star fa-xs text-warning"></i>
 														</span>
 													) : (
 														""
@@ -68,15 +72,21 @@ const Header = () => {
 												/>
 											</a>
 											<ul className="dropdown-menu dropdown-menu-end">
-												<li>
-													<span className="dropdown-item cursor-pointer" onClick={() => navigate("/admin")}>
-														<i class="fa-solid fa-fingerprint fa-xs"></i> Administrator
-													</span>
-												</li>
-												<hr className="dropdown-divider" />
+												{user && user?.role === "admin" ? (
+													<>
+														<li>
+															<span className="dropdown-item cursor-pointer" onClick={() => navigate("/admin")}>
+																<i className="fa-solid fa-fingerprint fa-xs"></i> Administrator
+															</span>
+														</li>
+														<hr className="dropdown-divider" />
+													</>
+												) : (
+													""
+												)}
 												<li>
 													<span className="dropdown-item cursor-pointer" onClick={() => navigate("/dashboard")}>
-														<i class="fa-solid fa-list-ul fa-xs"></i> Contul meu
+														<i className="fa-solid fa-list-ul fa-xs"></i> Contul meu
 													</span>
 												</li>
 												{/* <li>

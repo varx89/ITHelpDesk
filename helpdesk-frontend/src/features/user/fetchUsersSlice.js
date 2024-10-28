@@ -13,23 +13,17 @@ export const fetchUsers = createAsyncThunk("user/fetchUsers", async (thunkAPI) =
 	}
 });
 
-// export const fetchDepartments = createAsyncThunk("user/fetchDepartments", async (thunkAPI) => {
-// 	try {
-// 		const response = await axios.get(`${API_URL}/api/users/fetchDepartments`);
-// 		console.log(response.data);
-// 		return response.data;
-// 	} catch (error) {
-// 		const message = error.response.data || "Invalid 404";
-// 		return thunkAPI.rejectWithValue(message);
-// 	}
-// });
+export const fetchUser = createAsyncThunk("user/fetchUser", async (uName, thunkAPI) => {
+	try {
+		const response = await axios.get(`${API_URL}/api/users/profile/${uName}`);
+		return response.data;
+	} catch (error) {
+		const message = error.response.data || "Invalid 404";
+		return thunkAPI.rejectWithValue(message);
+	}
+});
 
-// export const logoutUser = createAsyncThunk("user/logout", async () => {
-// 	localStorage.removeItem("user");
-// 	localStorage.removeItem("error");
-// });
-
-const fetchUserSlice = createSlice({
+const fetchUsersSlice = createSlice({
 	name: "getUsers",
 	initialState: {
 		getUsers: null,
@@ -50,4 +44,26 @@ const fetchUserSlice = createSlice({
 	},
 });
 
-export default fetchUserSlice.reducer;
+const fetchUserSlice = createSlice({
+	name: "getUser",
+	initialState: {
+		getUser: null,
+		success: "",
+		error: "",
+	},
+	reducers: {},
+	extraReducers: (builder) => {
+		builder
+
+			.addCase(fetchUser.fulfilled, (state, action) => {
+				state.getUser = action.payload;
+			})
+			.addCase(fetchUser.rejected, (state, action) => {
+				state.error = action.payload.error;
+				state.success = "";
+			});
+	},
+});
+
+export const fetchUsersReducer = fetchUsersSlice.reducer;
+export const fetchUserReducer = fetchUserSlice.reducer;

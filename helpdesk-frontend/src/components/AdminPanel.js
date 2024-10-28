@@ -285,11 +285,12 @@ const AdminPanel = () => {
 												alt="Profil"
 											/>
 										</div>
-										<div className="col-2 color-blue">{ticket.name}</div>
+										{/* <div className="col-2 color-blue">{ticket.name}</div> */}
 										<div className="col-2">
 											{(departments && departments.find((dep) => +dep.department === +ticket.department)?.departmentFullName) || "Unknown Department"}
 										</div>
 										<Tooltip type="admin" data={ticket.description} />
+										<Tooltip type="admin" data={ticket.solvingRemark} />
 									</div>
 								))}
 

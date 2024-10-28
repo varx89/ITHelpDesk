@@ -12,6 +12,7 @@ const createTicket = asyncHandler(async (req, res) => {
 	if (!name) {
 		return res.status(401).json({ error: "Va rog introduceti numele dumneavoastra!" });
 	}
+
 	// if (!nameAllocate) {
 	// 	return res.status(401).json({ error: "Va rog sa selectati numele utilizatorului!" });
 	// }

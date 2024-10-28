@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { getAllTickets, createTicket } from "../features/tickets/ticketSlice";
+import { fetchUsers } from "../features/user/fetchUsersSlice";
 import Tooltip from "./Layout/Tooltip";
 import preloading from "../assets/images/preloader.gif";
 import { filterDepartment } from "../features/departments/departmentSlice";
@@ -12,10 +13,16 @@ const DashBoard = () => {
 	const { user } = useSelector((state) => state.user);
 	const { tickets, error, success } = useSelector((state) => state.tickets);
 	const { departments, filter } = useSelector((state) => state.departments);
+	// const { getUsers } = useSelector((state) => state.getUsers);
 
 	const [selectedItemDatalist, setSelectedItemDatalist] = useState("");
 	const [countdownTimer, setCountdownTimer] = useState(null);
-	const [formData, setFormData] = useState({ name: user.fullName, nameAllocate: "", department: "", description: "" });
+	const [formData, setFormData] = useState({
+		name: user.fullName,
+		nameAllocate: selectedItemDatalist ? selectedItemDatalist?.username : "",
+		department: "",
+		description: "",
+	});
 	const { name, department, nameAllocate, description } = formData;
 
 	const dispatch = useDispatch();
@@ -34,6 +41,7 @@ const DashBoard = () => {
 
 	useEffect(() => {
 		dispatch(getAllTickets());
+		// dispatch(fetchUsers());
 	}, []);
 
 	useEffect(() => {
@@ -59,7 +67,7 @@ const DashBoard = () => {
 	useEffect(() => {
 		setFormData((prevFormData) => ({
 			...prevFormData,
-			nameAllocate: selectedItemDatalist.username,
+			nameAllocate: selectedItemDatalist?.username,
 			department: filter?.department,
 		}));
 	}, [selectedItemDatalist, filter]);
@@ -90,9 +98,10 @@ const DashBoard = () => {
 		navigate("/login");
 	}
 
-	if (selectedItemDatalist) {
-		console.log(selectedItemDatalist);
-	}
+	// const getAdminFullName = () => {
+	// 	const admin = getUsers?.filter((userAdmin) => userAdmin.username === tickets?.admin);
+	// 	return admin.fullName;
+	// };
 
 	return (
 		<section id="ticketsArea" className="container d-flex flex-wrap justify-content-center">
@@ -159,7 +168,10 @@ const DashBoard = () => {
 
 								<Tooltip type="dashboard" data={ticket.description} />
 								<div className="col-3 color-blue text-end">
+									{/* {getUser ? getUser?.fullName : <img src={preloading} className="w-25 opacity-25" alt="In asteptare..." />} */}
+									{/* {getAdminFullName() ? getAdminFullName() : <img src={preloading} className="w-25 opacity-25" alt="In asteptare..." />} */}
 									{ticket?.adminFullName ? ticket?.adminFullName : <img src={preloading} className="w-25 opacity-25" alt="In asteptare..." />}
+									{/* {ticket?.admin ? ticket?.admin : <img src={preloading} className="w-25 opacity-25" alt="In asteptare..." />} */}
 								</div>
 							</div>
 						))}
