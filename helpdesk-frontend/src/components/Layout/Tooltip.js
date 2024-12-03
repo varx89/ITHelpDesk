@@ -20,7 +20,7 @@ const Tooltip = (props) => {
 	}
 
 	return (
-		<div data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title={props.data} className={tooltip}>
+		<div data-bs-toggle="tooltip" data-bs-placement="top" data-bs-custom-class="custom-tooltip" data-bs-title={props?.data} className={tooltip}>
 			{props.data}
 		</div>
 	);

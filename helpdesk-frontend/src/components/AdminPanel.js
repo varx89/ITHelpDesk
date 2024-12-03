@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllTickets, takeTicket, closeTicket } from "../features/tickets/ticketSlice";
+import { fetchUsers } from "../features/user/fetchUsersSlice";
 import { Navigate } from "react-router-dom";
 import Charts from "./Layout/Charts";
 import Tooltip from "./Layout/Tooltip";
 import { fetchDepartments } from "../features/departments/departmentSlice";
+import preloading from "../assets/images/preloader.gif";
 
 const AdminPanel = () => {
 	const { tickets, error, success } = useSelector((state) => state.tickets);
 	const { user } = useSelector((state) => state.user);
+	const { getUsers } = useSelector((state) => state.getUsers);
 	const { departments, filter } = useSelector((state) => state.departments);
 	const [remark, setRemark] = useState("");
 	const [duration, setDuration] = useState("");
@@ -26,15 +29,6 @@ const AdminPanel = () => {
 	const [showTotalTickets, setShowTotalTickets] = useState(false);
 	const [showHandleCloseTicket, setShowHandleCloseTicket] = useState(false);
 	const [showCloseTicketId, setShowCloseTicketId] = useState("");
-
-	useEffect(() => {
-		dispatch(getAllTickets());
-	}, [dispatch, showOpenTickets, showClosedTickets, showTotalTickets, tickets]);
-
-	// Fetch the departments when component mounts
-	useEffect(() => {
-		dispatch(fetchDepartments());
-	}, [dispatch]);
 
 	const toggleOpenTickets = () => {
 		setShowOpenTickets(!showOpenTickets);
@@ -66,6 +60,29 @@ const AdminPanel = () => {
 		setShowHandleCloseTicket(true);
 		setShowCloseTicketId(id);
 	};
+
+	useEffect(() => {
+		dispatch(getAllTickets());
+	}, [dispatch, showOpenTickets, showClosedTickets, showTotalTickets]);
+
+	// Fetch the departments when component mounts
+	useEffect(() => {
+		dispatch(fetchDepartments());
+	}, [dispatch]);
+
+	// Fetch the users when component mounts
+	useEffect(() => {
+		dispatch(fetchUsers());
+	}, [dispatch]);
+
+	// Polling mechanism to fetch the latest tickets every 5 seconds
+	useEffect(() => {
+		const interval = setInterval(() => {
+			dispatch(getAllTickets());
+		}, 5000); // Adjust the interval as needed
+
+		return () => clearInterval(interval);
+	}, [dispatch]);
 
 	const ticketCountNew = () => {
 		return tickets.filter((ticket) => ticket.status === "new").length;
@@ -243,12 +260,20 @@ const AdminPanel = () => {
 										<div className="col-1">#{ticket.id}</div>
 										<div className="col-1">
 											<img
-												src={`https://ui-avatars.com/api/?name=${ticket?.name}&background=0D8ABC&color=fff`}
+												src={`https://ui-avatars.com/api/?name=${
+													ticket.nameAllocate
+														? getUsers && getUsers.find((usr) => usr.username === ticket.nameAllocate)?.fullName
+														: getUsers && getUsers.find((usr) => usr.username === ticket.username)?.fullName
+												}&background=0D8ABC&color=fff`}
 												className="rounded-circle resize-img-nav-profile"
 												alt="Profil"
 											/>
 										</div>
-										<div className="col-2 color-blue">{ticket.name}</div>
+										<div className="col-2 color-blue">
+											{ticket.nameAllocate
+												? getUsers && getUsers.find((usr) => usr.username === ticket.nameAllocate)?.fullName
+												: getUsers && getUsers.find((usr) => usr.username === ticket.username)?.fullName}
+										</div>
 										<div className="col-2">
 											{(departments && departments?.find((dep) => +dep.department === +ticket.department)?.departmentFullName) || "Unknown Department"}
 										</div>
@@ -280,17 +305,25 @@ const AdminPanel = () => {
 										<div className="col-1">#{ticket.id}</div>
 										<div className="col-1">
 											<img
-												src={`https://ui-avatars.com/api/?name=${ticket?.name}&background=0D8ABC&color=fff`}
+												src={`https://ui-avatars.com/api/?name=${
+													ticket.nameAllocate
+														? getUsers && getUsers.find((usr) => usr.username === ticket.nameAllocate)?.fullName
+														: getUsers && getUsers.find((usr) => usr.username === ticket.username)?.fullName
+												}&background=0D8ABC&color=fff`}
 												className="rounded-circle resize-img-nav-profile"
 												alt="Profil"
 											/>
 										</div>
-										{/* <div className="col-2 color-blue">{ticket.name}</div> */}
-										<div className="col-2">
-											{(departments && departments.find((dep) => +dep.department === +ticket.department)?.departmentFullName) || "Unknown Department"}
+										<div className="col-2 color-blue">
+											{ticket.nameAllocate
+												? getUsers && getUsers.find((usr) => usr.username === ticket.nameAllocate)?.fullName
+												: getUsers && getUsers.find((usr) => usr.username === ticket.username)?.fullName}
 										</div>
-										<Tooltip type="admin" data={ticket.description} />
-										<Tooltip type="admin" data={ticket.solvingRemark} />
+										{/* <div className="col-2">
+											{(departments && departments.find((dep) => +dep.department === +ticket.department)?.departmentFullName) || "Unknown Department"}
+										</div> */}
+										<Tooltip type="admin" data={ticket?.description} />
+										<Tooltip type="admin" data={ticket?.solvingRemark} />
 									</div>
 								))}
 
@@ -313,17 +346,33 @@ const AdminPanel = () => {
 										<div className="col-1">#{ticket.id}</div>
 										<div className="col-1">
 											<img
-												src={`https://ui-avatars.com/api/?name=${ticket?.name}&background=0D8ABC&color=fff`}
+												src={`https://ui-avatars.com/api/?name=${
+													ticket.nameAllocate
+														? getUsers && getUsers.find((usr) => usr.username === ticket.nameAllocate)?.fullName
+														: getUsers && getUsers.find((usr) => usr.username === ticket.username)?.fullName
+												}&background=0D8ABC&color=fff`}
 												className="rounded-circle resize-img-nav-profile"
 												alt="Profil"
 											/>
 										</div>
-										<div className="col-2 color-blue">{ticket.name}</div>
+										<div className="col-2 color-blue">
+											{ticket.nameAllocate
+												? getUsers && getUsers.find((usr) => usr.username === ticket.nameAllocate)?.fullName
+												: getUsers && getUsers.find((usr) => usr.username === ticket.username)?.fullName}
+										</div>
 										<div className="col-2">
 											{(departments && departments.find((dep) => +dep.department === +ticket.department)?.departmentFullName) || "Unknown Department"}
 										</div>
 										<Tooltip type="admin" data={ticket.description} />
-										<div className="col-2 text-warning-emphasis">{ticket?.adminFullName}</div>
+										<div className="d-flex col-2 text-warning-emphasis align-items-center justify-content-center">
+											<i class="fa-solid fa-star fa-2xs px-2"></i>
+											{ticket.admin && getUsers ? (
+												getUsers.find((usr) => usr.username === ticket.admin)?.fullName
+											) : (
+												<img src={preloading} className="w-25 opacity-25" alt="In asteptare..." />
+											)}
+											<i class="fa-solid fa-star fa-2xs px-2"></i>
+										</div>
 									</div>
 								))}
 
@@ -352,14 +401,22 @@ const AdminPanel = () => {
 									<div className="col-1">#{ticket.id}</div>
 									<div className="col-1">
 										<img
-											src={`https://ui-avatars.com/api/?name=${ticket?.name}&background=0D8ABC&color=fff`}
+											src={`https://ui-avatars.com/api/?name=${
+												ticket.nameAllocate
+													? getUsers && getUsers.find((usr) => usr.username === ticket.nameAllocate)?.fullName
+													: getUsers && getUsers.find((usr) => usr.username === ticket.username)?.fullName
+											}&background=0D8ABC&color=fff`}
 											className="rounded-circle resize-img-nav-profile"
 											alt="Profil"
 										/>
 									</div>
-									<div className="col-2 color-blue">{ticket.name}</div>
+									<div className="col-2 color-blue">
+										{ticket.nameAllocate
+											? getUsers && getUsers.find((usr) => usr.username === ticket.nameAllocate)?.fullName
+											: getUsers && getUsers.find((usr) => usr.username === ticket.username)?.fullName}
+									</div>
 									<div className="col-2">
-										{(departments && departments.find((dep) => +dep.department === +ticket.department)?.departmentFullName) || "Unknown Department"}
+										{(departments && departments.find((dep) => +dep.department === +ticket.department)?.departmentFullName) || "Departament Necunoscut!!!"}
 									</div>
 									<Tooltip type="admin" data={ticket.description} />
 									<div className="col-2 d-flex justify-content-end">

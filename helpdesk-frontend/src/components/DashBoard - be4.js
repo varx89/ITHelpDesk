@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { createTicket, getAllTicketsPerUser } from "../features/tickets/ticketSlice";
-import { fetchUsers } from "../features/user/fetchUsersSlice";
+import { getAllTickets, createTicket, getAllTicketsPerUser } from "../features/tickets/ticketSlice";
 import Tooltip from "./Layout/Tooltip";
 import preloading from "../assets/images/preloader.gif";
 import { filterDepartment } from "../features/departments/departmentSlice";
@@ -12,10 +11,10 @@ import Countdown from "./Countdown";
 const DashBoard = () => {
 	const { user } = useSelector((state) => state.user);
 	const { tickets, error, success } = useSelector((state) => state.tickets);
-	const { getUsers } = useSelector((state) => state.getUsers);
 	const { departments, filter } = useSelector((state) => state.departments);
 
 	const [selectedItemDatalist, setSelectedItemDatalist] = useState("");
+	const [countdownTimer, setCountdownTimer] = useState(null);
 	const [formData, setFormData] = useState({
 		name: user.fullName,
 		nameAllocate: selectedItemDatalist ? selectedItemDatalist?.username : "",
@@ -31,26 +30,19 @@ const DashBoard = () => {
 		setSelectedItemDatalist(item);
 	};
 
-	const handleCountDown = () => {
-		if (user?.username) {
-			dispatch(getAllTicketsPerUser(user.username));
-		}
+	const handleCountDown = (time) => {
+		setCountdownTimer(time);
 	};
 
 	const recordPerPage = 5;
 	const [visibleNewCount, setVisibleNewCount] = useState(recordPerPage);
 
 	useEffect(() => {
-		// Fetch tickets on initial load
-		if (user?.username) {
+		// Fetch tickets on initial load and when countdown is triggered
+		if (!countdownTimer && user?.username) {
 			dispatch(getAllTicketsPerUser(user?.username));
 		}
-	}, [user?.username, dispatch]);
-
-	// Fetch the users when component mounts
-	useEffect(() => {
-		dispatch(fetchUsers());
-	}, [dispatch]);
+	}, [countdownTimer, user?.username, dispatch]);
 
 	useEffect(() => {
 		// Filter department based on user's departmentID or selected item's departmentID
@@ -75,7 +67,7 @@ const DashBoard = () => {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		setFormData({ name: user?.fullName, nameAllocate: selectedItemDatalist?.username, department: user?.departmentID, description: "" });
+		setFormData({ name: user.fullName, nameAllocate: selectedItemDatalist, department: "", description: "" });
 		dispatch(createTicket(formData));
 	};
 
@@ -83,12 +75,12 @@ const DashBoard = () => {
 		return `${user.username} - ${user.fullName}`;
 	};
 
-	const showMoreNewTickets = () => {
-		setVisibleNewCount((prevCount) => prevCount + recordPerPage); // Show 10 more records
+	const ticketCount = () => {
+		return tickets.filter((ticket) => ticket.username === user.username && ticket.status !== "closed").length;
 	};
 
-	const getTicketsNotClosed = () => {
-		return tickets.filter((ticket) => ticket.status !== "closed");
+	const showMoreNewTickets = () => {
+		setVisibleNewCount((prevCount) => prevCount + recordPerPage); // Show 10 more records
 	};
 
 	if (!user) {
@@ -143,12 +135,13 @@ const DashBoard = () => {
 				<div className="container">
 					<div className="row mb-3">
 						<div className="col-12 col-md-4 text-warning-emphasis w-100">
-							<strong>Ticketele mele ({getTicketsNotClosed().length})</strong>
+							<strong>Ticketele mele ({ticketCount()})</strong>
 							<span> - Reincarcare in {<Countdown onCountdownComplete={handleCountDown} />}s</span>
 						</div>
 					</div>
 
-					{getTicketsNotClosed()
+					{tickets
+						.toReversed()
 						.slice(0, visibleNewCount)
 						.map((ticket) => (
 							<div className="row py-2 border-bottom align-items-center row-moloz d-flex justify-content-between" key={ticket.id}>
@@ -156,11 +149,7 @@ const DashBoard = () => {
 
 								<Tooltip type="dashboard" data={ticket.description} />
 								<div className="col-3 color-blue text-end">
-									{ticket.admin && getUsers ? (
-										getUsers.find((usr) => usr.username === ticket.admin)?.fullName
-									) : (
-										<img src={preloading} className="w-25 opacity-25" alt="In asteptare..." />
-									)}
+									{ticket?.adminFullName ? ticket?.adminFullName : <img src={preloading} className="w-25 opacity-25" alt="In asteptare..." />}
 								</div>
 							</div>
 						))}

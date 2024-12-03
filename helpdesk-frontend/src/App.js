@@ -19,12 +19,22 @@ function App() {
 			</>
 		);
 	};
+	const LoginWrap = () => {
+		return (
+			<>
+				<Header />
+				<Outlet />
+			</>
+		);
+	};
 
 	return (
 		<Router>
 			<Routes>
+				<Route path="/" element={<LoginWrap />}>
+					<Route path="/" element={<Login />} />
+				</Route>
 				<Route path="/" element={<Layout />}>
-					<Route path="/login" element={<Login />} />
 					<Route path="/register" element={<Register />} />
 					<Route
 						path="/dashboard"

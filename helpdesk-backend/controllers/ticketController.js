@@ -2,6 +2,7 @@
 const asyncHandler = require("express-async-handler");
 const Ticket = require("../models/ticket");
 const writeLog = require("../logger");
+const { Op } = require("sequelize");
 
 // @desc    Create a new ticket
 // @route   POST /api/tickets/create
@@ -43,6 +44,26 @@ const createTicket = asyncHandler(async (req, res) => {
 // @access  Private (Admin Only)
 const getAllTickets = asyncHandler(async (req, res) => {
 	const tickets = await Ticket.findAll();
+	if (!tickets) {
+		res.status(404).json({ error: "Nu exista tickete in baza de date!" });
+	}
+	res.json(tickets);
+});
+
+// @desc    Get all tickets (Admin Only)
+// @route   GET /api/tickets
+// @access  Private (Admin Only)
+const getAllTicketsUser = asyncHandler(async (req, res) => {
+	const username = req.params.id;
+
+	const tickets = await Ticket.findAll({
+		where: {
+			username: username,
+			// status: {
+			// 	[Op.ne]: "closed", // Status not equal to "closed"
+			// },
+		},
+	});
 	if (!tickets) {
 		res.status(404).json({ error: "Nu exista tickete in baza de date!" });
 	}
@@ -115,4 +136,5 @@ module.exports = {
 	getAllTickets,
 	takeTicket,
 	closeTicket,
+	getAllTicketsUser,
 };

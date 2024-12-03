@@ -47,18 +47,23 @@ const fetchUsersSlice = createSlice({
 const fetchUserSlice = createSlice({
 	name: "getUser",
 	initialState: {
-		getUser: null,
+		getUser: [],
+		status: "idle",
 		success: "",
 		error: "",
 	},
 	reducers: {},
 	extraReducers: (builder) => {
 		builder
-
+			.addCase(fetchUser.pending, (state) => {
+				state.status = "loading";
+			})
 			.addCase(fetchUser.fulfilled, (state, action) => {
+				state.status = "succeeded";
 				state.getUser = action.payload;
 			})
 			.addCase(fetchUser.rejected, (state, action) => {
+				state.status = "failed";
 				state.error = action.payload.error;
 				state.success = "";
 			});

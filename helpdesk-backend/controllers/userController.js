@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const { Op } = require("sequelize");
 
 // Generate JWT
 const generateToken = (id) => {
@@ -75,23 +76,24 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/profile
 // @access  Private
 const getUserProfile = asyncHandler(async (req, res) => {
-	const user = await User.findOne({ where: { username: req.params.id } });
+	const user = await User.findAll({ where: { fullname: { [Op.like]: `%${req.params.id}%` } } });
 
 	if (user) {
-		res.json({
-			id: user.id,
-			username: user.username,
-			role: user.role,
-			fullName: user.fullName,
-			departmentID: user.departmentID,
-		});
+		// res.json({
+		// 	id: user.id,
+		// 	username: user.username,
+		// 	role: user.role,
+		// 	fullName: user.fullName,
+		// 	departmentID: user.departmentID,
+		// });
+		res.json(user);
 	} else {
 		return res.status(404).json({ error: "Utilizator negasit!" });
 	}
 });
 
 const fetchUsers = asyncHandler(async (req, res) => {
-	const users = await User.findAll({ where: { role: "admin" } });
+	const users = await User.findAll();
 	if (!users) {
 		return res.status(404).json({ error: "Nu exista utilizatori in baza de date!" });
 	}

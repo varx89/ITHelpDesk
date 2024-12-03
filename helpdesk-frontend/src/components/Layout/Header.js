@@ -12,7 +12,7 @@ const Header = () => {
 
 	const logoutUser = () => {
 		dispatch(logout());
-		navigate("/login");
+		navigate("/");
 	};
 
 	return (
