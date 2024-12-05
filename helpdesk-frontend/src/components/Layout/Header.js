@@ -72,6 +72,12 @@ const Header = () => {
 												/>
 											</a>
 											<ul className="dropdown-menu dropdown-menu-end">
+												<li>
+													<span className="dropdown-item cursor-pointer" onClick={() => navigate("/dashboard")}>
+														<i className="fa-solid fa-list-ul fa-xs"></i> Tickete
+													</span>
+												</li>
+												<hr className="dropdown-divider" />
 												{user && user?.role === "admin" ? (
 													<>
 														<li>
@@ -86,22 +92,10 @@ const Header = () => {
 												)}
 												<li>
 													<span className="dropdown-item cursor-pointer" onClick={() => navigate("/dashboard")}>
-														<i className="fa-solid fa-list-ul fa-xs"></i> Contul meu
+														<i className="fa-solid fa-gear fa-xs"></i> Setari
 													</span>
 												</li>
-												{/* <li>
-													<span className="dropdown-item">
-														<i className="fa-solid fa-user"></i> Profil
-													</span>
-												</li>
-												<li>
-													<span className="dropdown-item">
-														<i className="fa-solid fa-gear"></i> Setări
-													</span>
-												</li> */}
-												<li>
-													<hr className="dropdown-divider" />
-												</li>
+												<hr className="dropdown-divider" />
 												<li>
 													<a onClick={logoutUser} className="dropdown-item" href="#">
 														<i className="fa-solid fa-right-from-bracket fa-xs"></i> Ieșire
