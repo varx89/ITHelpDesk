@@ -8,15 +8,20 @@ import AdminPanel from "./components/AdminPanel";
 import Header from "./components/Layout/Header";
 import Footer from "./components/Layout/Footer";
 import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
 	const Layout = () => {
 		return (
-			<>
+			<div className="d-flex flex-column vh-100">
 				<Header />
-				<Outlet />
+
+				<main className="flex-grow-1">
+					<Outlet />
+				</main>
+
 				<Footer />
-			</>
+			</div>
 		);
 	};
 	const LoginWrap = () => {

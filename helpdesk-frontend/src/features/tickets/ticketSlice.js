@@ -115,4 +115,5 @@ const ticketSlice = createSlice({
 	},
 });
 
+export const { clearSuccess } = ticketSlice.actions;
 export default ticketSlice.reducer;

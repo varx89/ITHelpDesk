@@ -2,11 +2,11 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllTickets, takeTicket, closeTicket } from "../features/tickets/ticketSlice";
 import { fetchUsers } from "../features/user/fetchUsersSlice";
-import { Navigate } from "react-router-dom";
 import Charts from "./Layout/Charts";
 import Tooltip from "./Layout/Tooltip";
 import { fetchDepartments } from "../features/departments/departmentSlice";
 import preloading from "../assets/images/preloader.gif";
+import { useNavigate } from "react-router";
 
 const AdminPanel = () => {
 	const { tickets, error, success } = useSelector((state) => state.tickets);
@@ -15,6 +15,7 @@ const AdminPanel = () => {
 	const { departments, filter } = useSelector((state) => state.departments);
 	const [remark, setRemark] = useState("");
 	const [duration, setDuration] = useState("");
+	// const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 	const recordPerPage = 5;
 	const [visibleNewCount, setVisibleNewCount] = useState(recordPerPage);
@@ -23,6 +24,7 @@ const AdminPanel = () => {
 	const [visibleTotalCloseCount, setMyVisibleTotalCloseCount] = useState(recordPerPage);
 
 	const dispatch = useDispatch();
+	const navigate = useNavigate();
 
 	const [showOpenTickets, setShowOpenTickets] = useState(true);
 	const [showClosedTickets, setShowClosedTickets] = useState(false);
@@ -114,7 +116,7 @@ const AdminPanel = () => {
 	};
 
 	if (user?.role !== "admin") {
-		return <Navigate to="/dashboard" />;
+		navigate("/dashboard");
 	}
 
 	return (
@@ -132,7 +134,17 @@ const AdminPanel = () => {
 									<div className="modal-content">
 										<div className="modal-header">
 											<h5 className="modal-title">Inchidere Ticket Nr. {showCloseTicketId}</h5>
-											<button type="button" className="btn-close" onClick={() => setShowHandleCloseTicket(false)} aria-label="Close"></button>
+											<button
+												type="button"
+												className="btn-close"
+												onClick={() => {
+													setShowHandleCloseTicket(false);
+													if (success) {
+														window.location.reload();
+													}
+												}}
+												aria-label="Close"
+											></button>
 										</div>
 										<div className="modal-body">
 											<div className="container">
@@ -177,7 +189,18 @@ const AdminPanel = () => {
 													<label htmlFor="requester" className="form-label">
 														Solicitant
 													</label>
-													<input type="text" className="form-control" id="requester" name="requester" value={getTicketData(showCloseTicketId).name} disabled />
+													<input
+														type="text"
+														className="form-control"
+														id="requester"
+														name="requester"
+														value={
+															getTicketData(showCloseTicketId).username && getUsers
+																? getUsers.find((usr) => usr.username === getTicketData(showCloseTicketId).username)?.fullName
+																: "User Negasit!"
+														}
+														disabled
+													/>
 												</div>
 												<div className="mb-3">
 													<label htmlFor="resolutionDescription" className="form-label">
@@ -365,13 +388,13 @@ const AdminPanel = () => {
 										</div>
 										<Tooltip type="admin" data={ticket.description} />
 										<div className="d-flex col-2 text-warning-emphasis align-items-center justify-content-center">
-											<i class="fa-solid fa-star fa-2xs px-2"></i>
+											<i className="fa-solid fa-star fa-2xs px-2"></i>
 											{ticket.admin && getUsers ? (
 												getUsers.find((usr) => usr.username === ticket.admin)?.fullName
 											) : (
 												<img src={preloading} className="w-25 opacity-25" alt="In asteptare..." />
 											)}
-											<i class="fa-solid fa-star fa-2xs px-2"></i>
+											<i className="fa-solid fa-star fa-2xs px-2"></i>
 										</div>
 									</div>
 								))}
