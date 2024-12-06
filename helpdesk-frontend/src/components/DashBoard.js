@@ -87,10 +87,6 @@ const DashBoard = () => {
 		setVisibleNewCount((prevCount) => prevCount + recordPerPage); // Show 10 more records
 	};
 
-	// const getTicketsNotClosed = () => {
-	// 	return ticketsNotClosedByUser;
-	// };
-
 	if (!user) {
 		navigate("/");
 	}
@@ -143,7 +139,7 @@ const DashBoard = () => {
 				<div className="container">
 					<div className="row mb-3">
 						<div className="col-12 col-md-4 text-warning-emphasis w-100">
-							<strong>Ticketele mele ({getTicketsNotClosed().length})</strong>
+							<strong>Ticketele mele ({ticketsNotClosedByUser.length})</strong>
 							<span> - Reincarcare in {<Countdown onCountdownComplete={handleCountDown} />}s</span>
 						</div>
 					</div>

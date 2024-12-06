@@ -20,7 +20,7 @@ const Header = () => {
 			<header id="header" className="border-bottom border-1">
 				<nav className="navbar navbar-expand-sm navbar-light bg-body-tertiary">
 					<div className="container-fluid">
-						<a className="navbar-brand" href="#">
+						<a className="navbar-brand" href="/dashboard">
 							<img src={SIGLA} className="img-thumbnail resize-img-nav" alt="Portal" />
 						</a>
 						<button
@@ -40,13 +40,9 @@ const Header = () => {
 									<span className="color-header-title">
 										<i className="fa-brands fa-windows"></i>
 									</span>
-									<span
-										className="nav-link color-header-title fw-bold share-tech-mono-regular cursor-pointer"
-										aria-current="page"
-										onClick={() => navigate("/dashboard")}
-									>
+									<a className="nav-link color-header-title fw-bold share-tech-mono-regular cursor-pointer" aria-current="page" href="/dashboard">
 										{useTypewriter("CAA - IT Portal ", 500)}
-									</span>
+									</a>
 								</li>
 
 								<li className="nav-item dropdown d-flex flex-wrap">
