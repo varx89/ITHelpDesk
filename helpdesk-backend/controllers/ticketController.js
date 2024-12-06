@@ -39,9 +39,6 @@ const createTicket = asyncHandler(async (req, res) => {
 	res.status(201).json(ticket);
 });
 
-// @desc    Get all tickets (Admin Only)
-// @route   GET /api/tickets
-// @access  Private (Admin Only)
 const getAllTickets = asyncHandler(async (req, res) => {
 	const tickets = await Ticket.findAll();
 	if (!tickets) {
@@ -50,9 +47,6 @@ const getAllTickets = asyncHandler(async (req, res) => {
 	res.json(tickets);
 });
 
-// @desc    Get all tickets (Admin Only)
-// @route   GET /api/tickets
-// @access  Private (Admin Only)
 const getAllTicketsUser = asyncHandler(async (req, res) => {
 	const username = req.params.id;
 
@@ -70,9 +64,6 @@ const getAllTicketsUser = asyncHandler(async (req, res) => {
 	res.json(tickets);
 });
 
-// @desc    Admin takes over a ticket
-// @route   PUT /api/tickets/take/:id
-// @access  Private (Admin Only)
 const takeTicket = asyncHandler(async (req, res) => {
 	const ticket = await Ticket.findByPk(req.params.id);
 
@@ -94,9 +85,6 @@ const takeTicket = asyncHandler(async (req, res) => {
 	res.json(ticket);
 });
 
-// @desc    Close a ticket
-// @route   PUT /api/tickets/close/:id
-// @access  Private (Admin Only)
 const closeTicket = asyncHandler(async (req, res) => {
 	const { solvingRemark, timeSpan } = req.body;
 

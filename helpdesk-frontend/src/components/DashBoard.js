@@ -11,7 +11,7 @@ import Countdown from "./Countdown";
 
 const DashBoard = () => {
 	const { user } = useSelector((state) => state.user);
-	const { tickets, error, success } = useSelector((state) => state.tickets);
+	const { ticketsNotClosedByUser, error, success } = useSelector((state) => state.tickets);
 	const { getUsers } = useSelector((state) => state.getUsers);
 	const { departments, filter } = useSelector((state) => state.departments);
 
@@ -87,9 +87,9 @@ const DashBoard = () => {
 		setVisibleNewCount((prevCount) => prevCount + recordPerPage); // Show 10 more records
 	};
 
-	const getTicketsNotClosed = () => {
-		return tickets.filter((ticket) => ticket.status !== "closed");
-	};
+	// const getTicketsNotClosed = () => {
+	// 	return ticketsNotClosedByUser;
+	// };
 
 	if (!user) {
 		navigate("/");
@@ -148,22 +148,20 @@ const DashBoard = () => {
 						</div>
 					</div>
 
-					{getTicketsNotClosed()
-						.slice(0, visibleNewCount)
-						.map((ticket) => (
-							<div className="row py-2 border-bottom align-items-center row-moloz d-flex justify-content-between" key={ticket.id}>
-								<div className="col-1 fw-bold fs-7 text-secondary">#{ticket.id}</div>
+					{ticketsNotClosedByUser.slice(0, visibleNewCount).map((ticket) => (
+						<div className="row py-2 border-bottom align-items-center row-moloz d-flex justify-content-between" key={ticket.id}>
+							<div className="col-1 fw-bold fs-7 text-secondary">#{ticket.id}</div>
 
-								<Tooltip type="dashboard" data={ticket.description} />
-								<div className="col-3 color-blue text-end">
-									{ticket.admin && getUsers ? (
-										getUsers.find((usr) => usr.username === ticket.admin)?.fullName
-									) : (
-										<img src={preloading} className="w-25 opacity-25" alt="In asteptare..." />
-									)}
-								</div>
+							<Tooltip type="dashboard" data={ticket.description} />
+							<div className="col-3 color-blue text-end">
+								{ticket.admin && getUsers ? (
+									getUsers.find((usr) => usr.username === ticket.admin)?.fullName
+								) : (
+									<img src={preloading} className="w-25 opacity-25" alt="In asteptare..." />
+								)}
 							</div>
-						))}
+						</div>
+					))}
 
 					<div className="h-100 d-flex justify-content-center align-items-end mt-3">
 						<button type="button" className="btn btn-warning" onClick={showMoreNewTickets}>

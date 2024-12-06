@@ -9,13 +9,12 @@ import preloading from "../assets/images/preloader.gif";
 import { useNavigate } from "react-router";
 
 const AdminPanel = () => {
-	const { tickets, error, success } = useSelector((state) => state.tickets);
+	const { tickets, in_progress, closed, error, success } = useSelector((state) => state.tickets);
 	const { user } = useSelector((state) => state.user);
 	const { getUsers } = useSelector((state) => state.getUsers);
 	const { departments, filter } = useSelector((state) => state.departments);
 	const [remark, setRemark] = useState("");
 	const [duration, setDuration] = useState("");
-	// const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 	const recordPerPage = 5;
 	const [visibleNewCount, setVisibleNewCount] = useState(recordPerPage);

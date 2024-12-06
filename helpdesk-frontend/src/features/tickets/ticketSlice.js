@@ -29,6 +29,17 @@ export const getAllTickets = createAsyncThunk("tickets/getAll", async (_, thunkA
 		return thunkAPI.rejectWithValue(message);
 	}
 });
+
+export const getAllNewTickets = createAsyncThunk("tickets/getAllNew", async (_, thunkAPI) => {
+	try {
+		const response = await axios.get(`${API_URL}/api/tickets/new`, tokenAuthorization(thunkAPI));
+		return response.data;
+	} catch (error) {
+		const message = error.response.data || "Invalid 404";
+		return thunkAPI.rejectWithValue(message);
+	}
+});
+
 export const getAllTicketsPerUser = createAsyncThunk("tickets/user", async (user, thunkAPI) => {
 	try {
 		const response = await axios.get(`${API_URL}/api/tickets/user/${user}`, tokenAuthorization(thunkAPI));
@@ -63,6 +74,9 @@ const ticketSlice = createSlice({
 	name: "tickets",
 	initialState: {
 		tickets: [],
+		in_progress: [],
+		closed: [],
+		ticketsNotClosedByUser: [],
 		error: "",
 		success: "",
 	},
@@ -71,9 +85,12 @@ const ticketSlice = createSlice({
 		builder
 			.addCase(getAllTickets.fulfilled, (state, action) => {
 				state.tickets = action.payload;
+				state.in_progress = action.payload.filter((ticket) => ticket.status === "in_progress");
+				state.closed = action.payload.filter((ticket) => ticket.status === "closed");
 			})
 			.addCase(getAllTicketsPerUser.fulfilled, (state, action) => {
 				state.tickets = action.payload;
+				state.ticketsNotClosedByUser = action.payload.filter((ticket) => ticket.status !== "closed");
 			})
 
 			.addCase(createTicket.fulfilled, (state, action) => {
@@ -115,5 +132,4 @@ const ticketSlice = createSlice({
 	},
 });
 
-export const { clearSuccess } = ticketSlice.actions;
 export default ticketSlice.reducer;
